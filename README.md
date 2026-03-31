@@ -2,7 +2,7 @@
 
 ## 🏠 Project Overview
 
-This is a **college project** focusing on creating a **Smart Home Threat Simulation Platform** using ESP32 microcontrollers. The platform combines real hardware with simulation to create a comprehensive IoT security testing environment for generating security datasets and evaluating threat detection mechanisms.
+This is a **Capstone project** focusing on creating a **Smart Home Threat Simulation Platform** using ESP32 microcontrollers. The platform combines real hardware with simulation to create a comprehensive IoT security testing environment for generating security datasets and evaluating threat detection mechanisms.
 
 ### **Project Vision**
 To build a hybrid (virtual + physical) IoT security testing platform that:
