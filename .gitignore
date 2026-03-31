@@ -1,0 +1,107 @@
+# IDE and Editor files
+.vscode/
+*.code-workspace
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build outputs
+build/
+*.bin
+*.elf
+*.hex
+*.map
+*.lst
+*.o
+*.d
+*.su
+
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+*.log
+logs/
+
+# Credentials and sensitive data
+*.env
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+credentials/
+config_secret.h
+
+# Temporary files
+.tmp/
+temp/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Wokwi cache
+.wokwi/
+wokwi-cache/
+
+# Compiled binaries
+*.exe
+*.out
+*.app
+
+# System files
+.DS_Store
+Desktop.ini
+
+# Large files
+*.zip
+*.tar
+*.gz
+*.7z
+
+# Documentation
+_site/
+.sass-cache/
+.jekyll-metadata
+
+# Test coverage
+coverage/
+*.lcov
+
+# Misc
+.project
+.cproject
+.settings/
