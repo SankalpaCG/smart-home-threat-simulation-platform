@@ -75,8 +75,9 @@ codes/
 ## 🔧 **Professional Tool Stack Recommendation**
 
 ### **1. Development & Simulation**
-- **PlatformIO**: Professional IDE for embedded development
+- **Arduino IDE**: Primary development environment for ESP32 programming (recommended)
 - **Wokwi**: Virtual IoT simulation (already in use)
+- **Visual Studio Code with Arduino Extension**: Alternative IDE option
 - **Docker**: Containerized simulation environments
 - **QEMU**: Hardware emulation for consistency
 
@@ -160,7 +161,7 @@ codes/
 
 ### **Phase 1: Foundation (2 Weeks)**
 1. **Environment Setup**:
-   - Install PlatformIO + VS Code
+   - Install Arduino IDE + VS Code/Arduino IDE
    - Set up local Mosquitto broker
    - Create Git repository with proper structure
    - Implement configuration management
@@ -250,41 +251,41 @@ codes/
 
 | Member | Role | Primary Responsibilities | Secondary Responsibilities |
 |--------|------|--------------------------|----------------------------|
-| **Member 1** | **Hardware & Firmware Lead** | ESP32 programming, circuit design, sensor integration, hardware testing, power management, physical security | Device provisioning, component sourcing, PCB design (if needed), hardware documentation |
-| **Member 2** | **Software & Backend Lead** | MQTT broker setup, API development, data pipeline architecture, database management, system integration | DevOps, containerization (Docker), CI/CD pipelines, system monitoring, backend documentation |
-| **Member 3** | **Security & Attack Simulation Lead** | Threat modeling, attack vector development, penetration testing, security analysis, defense mechanism testing | Vulnerability assessment, security documentation, compliance checking, risk analysis |
-| **Member 4** | **Data Science & ML Lead** | Dataset creation, data preprocessing, feature engineering, ML model development, statistical analysis | Data visualization, model evaluation, algorithm optimization, research paper writing |
-| **Member 5** | **Frontend & Visualization Lead** | Dashboard development, real-time monitoring UI, data visualization, user interface design, documentation portal | User experience testing, report generation tools, demo preparation, presentation materials |
+| **Sankalpa Ghimire** | **Hardware & Firmware Lead** | ESP32 programming, circuit design, sensor integration, hardware testing, power management, physical security | Device provisioning, component sourcing, PCB design (if needed), hardware documentation |
+| **Deepak Sharma** | **Software & Backend Lead** | MQTT broker setup, API development, data pipeline architecture, database management, system integration | DevOps, containerization (Docker), CI/CD pipelines, system monitoring, backend documentation |
+| **Amir Kumar pachhai** | **Security & Attack Simulation Lead** | Threat modeling, attack vector development, penetration testing, security analysis, defense mechanism testing | Vulnerability assessment, security documentation, compliance checking, risk analysis |
+| **Sadikshya Dahal** | **Data Science & ML Lead** | Dataset creation, data preprocessing, feature engineering, ML model development, statistical analysis | Data visualization, model evaluation, algorithm optimization, research paper writing |
+| **Shashi Simkhada** | **Frontend & Visualization Lead** | Dashboard development, real-time monitoring UI, data visualization, user interface design, documentation portal | User experience testing, report generation tools, demo preparation, presentation materials |
 
 #### **Detailed Task Distribution:**
 
 **Phase 1: Foundation (2 Weeks) - All Members**
-- **Member 1**: PlatformIO setup, ESP32 code sanitization, hardware configuration
-- **Member 2**: Mosquitto broker installation, Git repository setup, CI/CD configuration
-- **Member 3**: Security baseline implementation, credential management system
-- **Member 4**: Data collection framework design, initial dataset schema
-- **Member 5**: Project documentation portal, basic monitoring dashboard
+- **Sankalpa Ghimire**: Arduino IDE setup, ESP32 code sanitization, hardware configuration
+- **Deepak Sharma**: Mosquitto broker installation, Git repository setup, CI/CD configuration
+- **Amir Kumar pachhai**: Security baseline implementation, credential management system
+- **Sadikshya Dahal**: Data collection framework design, initial dataset schema
+- **Shashi Simkhada**: Project documentation portal, basic monitoring dashboard
 
 **Phase 2: Hybrid Layer (3 Weeks)**
-- **Member 1**: Virtual/physical device abstraction layer, protocol translation
-- **Member 2**: Unified MQTT broker configuration, real-time processing pipeline
-- **Member 3**: Threat injection framework, attack scenario development (5+ vectors)
-- **Member 4**: Data storage infrastructure, normalization algorithms
-- **Member 5**: Hybrid simulation visualization, attack timeline UI
+- **Sankalpa Ghimire**: Virtual/physical device abstraction layer, protocol translation
+- **Deepak Sharma**: Unified MQTT broker configuration, real-time processing pipeline
+- **Amir Kumar pachhai**: Threat injection framework, attack scenario development (5+ vectors)
+- **Sadikshya Dahal**: Data storage infrastructure, normalization algorithms
+- **Shashi Simkhada**: Hybrid simulation visualization, attack timeline UI
 
 **Phase 3: Simulation Scenarios (2 Weeks)**
-- **Member 1**: Attack hardware integration, physical tampering simulations
-- **Member 2**: Automated testing framework, performance benchmarking
-- **Member 3**: 10+ IoT-specific attack library, defense testing framework
-- **Member 4**: Dataset labeling system, quality validation metrics
-- **Member 5**: Real-time attack visualization, security alert dashboard
+- **Sankalpa Ghimire**: Attack hardware integration, physical tampering simulations
+- **Deepak Sharma**: Automated testing framework, performance benchmarking
+- **Amir Kumar pachhai**: 10+ IoT-specific attack library, defense testing framework
+- **Sadikshya Dahal**: Dataset labeling system, quality validation metrics
+- **Shashi Simkhada**: Real-time attack visualization, security alert dashboard
 
 **Phase 4: Analysis & Documentation (1 Week)**
-- **Member 1**: Hardware performance report, power consumption analysis
-- **Member 2**: System scalability analysis, bottleneck identification
-- **Member 3**: Security effectiveness report, vulnerability summary
-- **Member 4**: Dataset insights, ML model performance, research paper draft
-- **Member 5**: Final presentation, demo video, user documentation
+- **Sankalpa Ghimire**: Hardware performance report, power consumption analysis
+- **Deepak Sharma**: System scalability analysis, bottleneck identification
+- **Amir Kumar pachhai**: Security effectiveness report, vulnerability summary
+- **Sadikshya Dahal**: Dataset insights, ML model performance, research paper draft
+- **Shashi Simkhada**: Final presentation, demo video, user documentation
 
 #### **Cross-functional Collaboration:**
 - **Weekly sync meetings** to coordinate between hardware, software, and security teams
@@ -293,11 +294,11 @@ codes/
 - **Documentation rotation** where each member documents another's work weekly
 
 #### **Success Metrics per Role:**
-- **Hardware Lead**: 100% device reliability, <1% hardware failure rate
-- **Software Lead**: 99.9% system uptime, <100ms processing latency
-- **Security Lead**: 95% attack detection rate, <5 false positives/day
-- **Data Lead**: 10,000+ labeled samples, >90% model accuracy
-- **Frontend Lead**: <3s page load, 100% user task completion rate
+- **Sankalpa Ghimire (Hardware)**: 100% device reliability, <1% hardware failure rate
+- **Deepak Sharma (Software)**: 99.9% system uptime, <100ms processing latency
+- **Amir Kumar pachhai (Security)**: 95% attack detection rate, <5 false positives/day
+- **Sadikshya Dahal (Data)**: 10,000+ labeled samples, >90% model accuracy
+- **Shashi Simkhada (Frontend)**: <3s page load, 100% user task completion rate
 
 ### **Getting Started:**
 1. Clone the repository

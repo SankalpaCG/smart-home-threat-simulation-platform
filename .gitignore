@@ -26,10 +26,13 @@ build/
 *.d
 *.su
 
-# PlatformIO
-.pio/
-.pioenvs/
-.piolibdeps/
+# Arduino IDE
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+build/
 
 # Python
 __pycache__/

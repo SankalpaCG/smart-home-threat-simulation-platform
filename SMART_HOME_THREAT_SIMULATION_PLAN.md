@@ -125,7 +125,7 @@ codes/
 
 ### **Long-term Strategy (Weeks 3-6):**
 1. **Hybrid Simulation**: Combine Wokwi (virtual) + real hardware
-2. **Automated Testing**: CI/CD pipeline for firmware validation
+2. **Automated Testing**: CI/CD pipeline for firmware validation with Arduino IDE
 3. **Threat Library**: Catalog of IoT-specific attack vectors
 4. **Dataset Schema**: Structured format for attack/benign data
 
