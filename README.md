@@ -15,14 +15,27 @@ To build a hybrid (virtual + physical) IoT security testing platform that:
 
 ## 📁 Current Project Structure
 
-```
-codes/
-├── Climate Hub (ESP32 #2)/          # Temperature/humidity monitoring with relay control
-├── Security Hub (ESP32 #1)/         # PIR motion detection with buzzer
-├── Smart Lock Hub (ESP32 #3)/       # Servo-controlled smart lock system
-├── Security_hub.ino                 # Real-world implementation
-├── SMART_HOME_THREAT_SIMULATION_PLAN.md  # Detailed technical analysis & plan
-└── README.md                        # This file
+```bash
+.
+├── Climate Hub (ESP32 #2)/          # Temperature/humidity monitoring
+├── Security Hub (ESP32 #1)/         # PIR motion detection
+├── Smart Lock Hub (ESP32 #3)/       # Access control
+├── Security_hub.ino                 # Standard firmware implementation
+├── attacks/                         # ⚔️ Sovereignty Research Attack Suite
+│   ├── ATTACK_SUITE_GUIDE.md        # Technical execution methodologies
+│   └── (7+ Attack Scripts)          # Research-grade simulation vectors
+├── defence/                         # 🛡️ Sovereignty Defence Suite
+│   ├── DEFENCE_SUITE_GUIDE.md       # Anomaly detection & prevention docs
+│   └── (4+ Core Framework Scripts)  # IDS, IPS, Probe, and Logger
+├── dataset/                         # 📊 Research Data & Telemetry (JSON/CSV)
+│   ├── logs/                        # System & Mitigation audits
+│   ├── raw/                         # Network intelligence traces
+│   └── sessions/                    # Individual forensic sessions
+├── forensic_utils.py                # 🛠️ Central Forensic Utility (JSON/CSV)
+├── requirements.txt                 # 🐍 Python Dependencies
+├── DEPENDENCIES.md                  # 🔧 Technical Setup & System Requirements
+├── SMART_HOME_THREAT_SIMULATION_PLAN.md # Deep Technical Analysis
+└── README.md                        # This Project Hub
 ```
 
 ## 🏛️ Advanced Research Layer
