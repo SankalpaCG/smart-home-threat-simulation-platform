@@ -20,10 +20,21 @@ codes/
 ├── Climate Hub (ESP32 #2)/          # Temperature/humidity monitoring with relay control
 ├── Security Hub (ESP32 #1)/         # PIR motion detection with buzzer
 ├── Smart Lock Hub (ESP32 #3)/       # Servo-controlled smart lock system
-├── Security_hub.ino                 # Real-world implementation (with credentials)
+├── Security_hub.ino                 # Real-world implementation
 ├── SMART_HOME_THREAT_SIMULATION_PLAN.md  # Detailed technical analysis & plan
 └── README.md                        # This file
 ```
+
+## 🏛️ Advanced Research Layer
+The platform utilizes an advanced research framework, extending standard MQTT simulation to include **Deep Packet Inspection (DPI)** and **Artificial Intelligence**.
+
+- **Network Probe**: Raw Scapy Sniffing (TCP/IP Layer).
+- **Detection Engine**: Isolation Forest ML Anomaly Detection.
+- **Intrusion Prevention System (IPS)**: Real-time automated defense.
+- **Forensic Auditing Module**: Firmware analysis (RSSI/Heap).
+
+---
+
 
 ### **Device Specifications:**
 
@@ -37,12 +48,12 @@ codes/
 
 ## 🎯 **Hybrid Approach: Wokwi + Real Hardware**
 
-### **Why Hybrid?**
+### **Methodology**
 1. **Cost Efficiency**: Virtual simulation reduces hardware costs
 2. **Scalability**: Run multiple virtual devices simultaneously
-3. **Rapid Prototyping**: Test ideas in Wokwi before hardware implementation
+3. **Rapid Prototyping**: Test configurations in Wokwi before hardware implementation
 4. **Reproducibility**: Consistent test environments
-5. **Safety**: Test dangerous attacks virtually first
+5. **Safety**: Test attack vectors in a virtual environment first
 
 ### **Proposed Architecture:**
 
@@ -75,8 +86,8 @@ codes/
 ## 🔧 **Professional Tool Stack Recommendation**
 
 ### **1. Development & Simulation**
-- **Arduino IDE**: Primary development environment for ESP32 programming (recommended)
-- **Wokwi**: Virtual IoT simulation (already in use)
+- **Arduino IDE**: Primary development environment for ESP32 programming
+- **Wokwi**: Virtual IoT simulation
 - **Visual Studio Code with Arduino Extension**: Alternative IDE option
 - **Docker**: Containerized simulation environments
 - **QEMU**: Hardware emulation for consistency
@@ -84,7 +95,7 @@ codes/
 ### **2. Communication & Middleware**
 - **Mosquitto MQTT Broker**: Local, secure MQTT implementation
 - **Node-RED**: Visual programming for data flows
-- **Apache Kafka**: High-throughput data streaming (advanced)
+- **Apache Kafka**: High-throughput data streaming
 - **ZeroMQ**: Alternative for high-performance messaging
 
 ### **3. Security & Monitoring**
@@ -162,7 +173,7 @@ codes/
 ### **Phase 1: Foundation (2 Weeks)**
 1. **Environment Setup**:
    - Install Arduino IDE + VS Code/Arduino IDE
-   - Set up local Mosquitto broker
+   - Set up local Mosquitto broker (sudo apt install mosquitto libpcap-dev)
    - Create Git repository with proper structure
    - Implement configuration management
 
@@ -301,8 +312,9 @@ codes/
 - **Shashi Simkhada (Frontend)**: <3s page load, 100% user task completion rate
 
 ### **Getting Started:**
-1. Clone the repository
-2. Review `SMART_HOME_THREAT_SIMULATION_PLAN.md`
+1. Clone the repository.
+2. Review **[DEPENDENCIES.md](file:///home/pirator/smart-home-threat-simulation-platform/DEPENDENCIES.md)** and install all required libraries.
+3. Review `SMART_HOME_THREAT_SIMULATION_PLAN.md`.
 3. Set up development environment
 4. Start with Phase 1 tasks
 
@@ -331,9 +343,12 @@ This project is open-source under the MIT License.
 
 ---
 
-**Last Updated**: March 31, 2026  
-**Project Status**: Planning Phase  
-**Next Milestone**: Environment Setup & Code Sanitization
+---
+
+**Last Updated**: April 14, 2026  
+**Project Status**: **Super Advanced (Sovereignty Framework Active)**  
+**Next Milestone**: Automated Adversarial Mitigation & Dataset Publication
 
 ---
 *"Building the future of IoT security, one simulation at a time."*
+```

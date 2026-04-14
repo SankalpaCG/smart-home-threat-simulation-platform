@@ -160,3 +160,38 @@ Step 4 — Brute Force
 python bruteforce_attack.py
 Password cracked
 
+
+---
+
+# 🌌 Advanced IoT Security Simulation Scenarios
+
+These research scenarios utilize the **Network Probe**, **Analysis Engine (IDS)**, and **Internal Audit Logic** to evaluate the boundaries of cyber-physical security.
+
+## Scenario 1: Stealth Denial of Service (DoS)
+- **Goal**: Exhaust broker resources without triggering volumetric thresholds.
+- **Workflow**: 
+    1. Start `sovereign_probe.py` and `sovereign_ids.py`.
+    2. Run `dos_attack_advanced.py --adversarial --rate 2 --clients 10`.
+- **Research Challenge**: Can the anomaly detection engine identify the subtle increase in payload entropy and TCP retransmissions?
+
+## Scenario 2: Statistical Evasion (High-Fidelity Masking)
+- **Goal**: Mask a physical intrusion event using statistical timing jitter.
+- **Workflow**:
+    1. Start `security_logger.py --label adversarial_masking`.
+    2. Run `spoofing_attack.py --mode masking --burst 100`.
+- **Research Challenge**: Analyze the `network_intelligence.csv` to identify the specific alarm packet within the masking noise.
+
+## Scenario 3: The "Resilience Audit" (Session Hijacking)
+- **Goal**: Test the reliability of the Last Will and Testament (LWT).
+- **Workflow**:
+    1. Start `sovereign_guard.py`.
+    2. Run `heartbeat_loss_sim.py --mode silent`.
+- **The Challenge**: Observe how long it takes for the Broker to announce the **OFFLINE** status.
+
+## Scenario 4: The "Signal Scrambler" (RSSI Tampering)
+- **Goal**: Correlate physical network interference with cyber-vulnerability.
+- **Workflow**:
+    1. Start the Intelligent Hub (`Security_hub.ino`).
+    2. Introduce a wireless obstruction between the ESP32 and the Router.
+- **The Challenge**: Map the `wifi_rssi` drop points against the `reconnect_count`. At what Signal Strength does the Hub finally lose its cyber-link?
+

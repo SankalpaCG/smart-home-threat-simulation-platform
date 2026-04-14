@@ -107,4 +107,6 @@ coverage/
 # Misc
 .project
 .cproject
-.settings/
+# Research Data and Telemetry
+dataset/
+test_output.log
