@@ -19,11 +19,11 @@ For a complete forensic capture, run the **Sovereignty Probe** and **Central Log
 
 - **Network Intelligence Probe** (Layer 3/4 Analysis):
   ```bash
-  sudo venv/bin/python3 sovereign_probe.py
+  sudo ./venv/bin/python3 defence/sovereign_probe.py
   ```
 - **Central Security Logger** (App-Layer Synchronization):
   ```bash
-  python3 security_logger.py --label <target_attack_label>
+  python3 defence/security_logger.py --label [target_attack_label]
   ```
 
 ---

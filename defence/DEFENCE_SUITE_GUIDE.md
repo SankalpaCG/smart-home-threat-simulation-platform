@@ -14,7 +14,7 @@ The suite operates as a multi-layer sentinel system, synchronizing network-layer
 - **Execution**:
   ```bash
   # Must be run with elevated privileges for raw socket access
-  sudo ../venv/bin/python3 sovereign_probe.py
+  sudo ./venv/bin/python3 defence/sovereign_probe.py
   ```
 
 ### **2. Central Telemetry Logger (App-Layer Sync)**
@@ -22,7 +22,7 @@ The suite operates as a multi-layer sentinel system, synchronizing network-layer
 - **Forensic output**: Synchronizes each session into a unique JSON/CSV pair in `dataset/sessions/`.
 - **Execution**:
   ```bash
-  python3 security_logger.py --label <normal/attack_type>
+  python3 defence/security_logger.py --label [normal_or_attack_type]
   ```
 
 ### **3. Anomaly Detection Engine (IDS)**
@@ -31,7 +31,7 @@ The suite operates as a multi-layer sentinel system, synchronizing network-layer
 - **Execution**:
   ```bash
   # Requires a baseline in network_intelligence.csv to start
-  python3 sovereign_ids.py
+  python3 defence/sovereign_ids.py
   ```
 
 ### **4. Sovereign Guard (IPS/Mitigation)**
@@ -39,7 +39,7 @@ The suite operates as a multi-layer sentinel system, synchronizing network-layer
 - **Mitigation Action**: Dispatches **Lockdown Commands** to the IoT nodes and records a forensic audit of every intervention.
 - **Execution**:
   ```bash
-  python3 sovereign_guard.py
+  python3 defence/sovereign_guard.py
   ```
 
 ---
