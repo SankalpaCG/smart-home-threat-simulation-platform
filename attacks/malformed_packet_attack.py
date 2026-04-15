@@ -52,7 +52,7 @@ POISON_PAYLOADS = [
 
 def main():
     parser = argparse.ArgumentParser(description="Advanced Structured Protocol Analysis (Fuzzing)")
-    parser.add_argument("--broker", default="192.168.1.105", help="Target Broker IP")
+    parser.add_argument("--broker", default="192.168.21.89", help="Target Broker IP")
     parser.add_argument("--topic", default="shtsp/home/security/motion", help="Audit Topic")
     
     args = parser.parse_args()

@@ -90,7 +90,7 @@ class NetworkProbe:
             sniff(iface=INTERFACE, prn=self.process_packet, filter=f"tcp port {TARGET_PORT}", store=0)
         except PermissionError:
             print("\n❌ Error: Scapy requires 'sudo' to sniff network interfaces.")
-            print("Try running: sudo ../venv/bin/python3 sovereign_probe.py")
+            print("Run from project root: sudo ./venv/bin/python3 defence/sovereign_probe.py")
         except Exception as e:
             print(f"\n❌ Probe Error: {e}")
 

@@ -23,14 +23,15 @@ BASE_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset"
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 SESSIONS_DIR = os.path.join(BASE_DIR, "sessions")
 
-BROKER = "192.168.1.105"
+BROKER = "192.168.21.89"
 PORT = 1883
 TOPICS = ["shtsp/home/security/heartbeat", "shtsp/home/security/motion"]
 
 class AdvancedReplaySimulator:
-    def __init__(self, capture_duration, delay):
+    def __init__(self, capture_duration, delay, broker=BROKER):
         self.capture_duration = capture_duration
         self.delay = delay
+        self.broker = broker
         self.buffer = []
         self.is_capturing = True
         
@@ -39,7 +40,7 @@ class AdvancedReplaySimulator:
         self.client.on_message = self.on_message
 
     def on_connect(self, client, userdata, flags, rc):
-        print(f"✅ Replay Simulator connected to {BROKER}")
+        print(f"✅ Replay Simulator connected to {self.broker}")
         for topic in TOPICS:
             client.subscribe(topic)
         print(f"🎣 CAPTURING network window for {self.capture_duration}s...")
@@ -89,7 +90,7 @@ class AdvancedReplaySimulator:
 
     def run(self):
         try:
-            self.client.connect(BROKER, PORT, 60)
+            self.client.connect(self.broker, PORT, 60)
             self.client.loop_start()
             
             time.sleep(self.capture_duration)
@@ -106,11 +107,11 @@ class AdvancedReplaySimulator:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Advanced Time-Shifted Replay Simulation")
-    parser.add_argument("--broker", default="192.168.1.105", help="Target Broker IP")
+    parser.add_argument("--broker", default="192.168.21.89", help="Target Broker IP")
     parser.add_argument("--capture", type=int, default=30, help="Capture phase (seconds)")
     parser.add_argument("--delay", type=int, default=10, help="Delay phase (seconds)")
     
     args = parser.parse_args()
 
-    simulator = AdvancedReplaySimulator(args.capture, args.delay)
+    simulator = AdvancedReplaySimulator(args.capture, args.delay, broker=args.broker)
     simulator.run()

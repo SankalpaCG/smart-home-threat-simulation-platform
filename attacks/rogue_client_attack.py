@@ -23,7 +23,7 @@ BASE_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset"
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 SESSIONS_DIR = os.path.join(BASE_DIR, "sessions")
 
-BROKER = "192.168.1.105"
+BROKER = "192.168.21.89"
 PORT = 1883
 
 # Advanced Identity Pool for Reconnaissance
@@ -82,14 +82,14 @@ def on_message(client, userdata, msg):
     print(f"🔓 EXFILTRATION: Data leaked from {msg.topic}")
     recon_logger.log_leak(msg.topic)
 
-def run_probe(identity):
+def run_probe(identity, broker=BROKER):
     print(f"\n🔍 Initializing Recon Probe with ID: '{identity}'")
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, identity, userdata={"id": identity})
     client.on_connect = on_connect
     client.on_message = on_message
     
     try:
-        client.connect(BROKER, PORT, 10)
+        client.connect(broker, PORT, 10)
         client.loop_start()
         time.sleep(5) 
         client.loop_stop()
@@ -100,7 +100,7 @@ def run_probe(identity):
 
 def main():
     parser = argparse.ArgumentParser(description="Advanced Broker Identity Reconnaissance Analysis")
-    parser.add_argument("--broker", default="192.168.1.105", help="Target Broker IP")
+    parser.add_argument("--broker", default="192.168.21.89", help="Target Broker IP")
     parser.add_argument("--all", action="store_true", help="Rotate through all identity probes")
     
     args = parser.parse_args()
@@ -112,9 +112,9 @@ def main():
     try:
         if args.all:
             for identity in PROBE_IDENTITIES:
-                run_probe(identity)
+                run_probe(identity, broker=args.broker)
         else:
-            run_probe(random.choice(PROBE_IDENTITIES))
+            run_probe(random.choice(PROBE_IDENTITIES), broker=args.broker)
     except KeyboardInterrupt:
         pass
 

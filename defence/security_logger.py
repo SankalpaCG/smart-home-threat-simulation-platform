@@ -17,7 +17,7 @@ BANNER = """
 """
 
 # Configuration
-BROKER = "192.168.1.105"
+BROKER = "192.168.21.89"
 PORT = 1883
 TOPICS = "#"
 # Absolute pathing for dataset reliability

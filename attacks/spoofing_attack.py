@@ -20,7 +20,7 @@ BANNER = """
 """
 
 # Target Environment Configuration
-BROKER = "192.168.1.105"
+BROKER = "192.168.21.89"
 PORT = 1883
 TARGET_TOPIC = "shtsp/home/security/motion"
 
@@ -30,9 +30,10 @@ LOG_DIR = os.path.join(BASE_DIR, "logs")
 SESSIONS_DIR = os.path.join(BASE_DIR, "sessions")
 
 class IntelligentMirror:
-    def __init__(self, mode, masking_burst):
+    def __init__(self, mode, masking_burst, broker=BROKER):
         self.mode = mode
         self.masking_burst = masking_burst
+        self.broker = broker
         self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, "Research_Mirror")
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
@@ -42,7 +43,7 @@ class IntelligentMirror:
         self.total_injected = 0
 
     def on_connect(self, client, userdata, flags, rc):
-        print(f"✅ Intelligence Mirror connected to {BROKER}")
+        print(f"✅ Intelligence Mirror connected to {self.broker}")
         client.subscribe(TARGET_TOPIC)
         print(f"👀 Monitoring {TARGET_TOPIC} for context-aware injection...")
 
@@ -113,7 +114,7 @@ class IntelligentMirror:
 
     def run(self, interval):
         try:
-            self.client.connect(BROKER, PORT, 60)
+            self.client.connect(self.broker, PORT, 60)
             if self.mode == "masking":
                 self.client.loop_forever()
             else:
@@ -131,5 +132,5 @@ if __name__ == "__main__":
     parser.add_argument("--burst", type=int, default=50, help="Masking burst threshold")
     parser.add_argument("--interval", type=float, default=5.0, help="Spoof interval base")
     args = parser.parse_args()
-    mirror = IntelligentMirror(args.mode, args.burst)
+    mirror = IntelligentMirror(args.mode, args.burst, broker=args.broker)
     mirror.run(args.interval)

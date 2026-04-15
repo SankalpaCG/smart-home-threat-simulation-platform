@@ -101,7 +101,7 @@ def print_progress(current, total, start_time):
 
 def main():
     parser = argparse.ArgumentParser(description="Advanced MQTT Brute Force Simulation")
-    parser.add_argument("--broker", default="192.168.1.105", help="Target Broker IP")
+    parser.add_argument("--broker", default="192.168.21.89", help="Target Broker IP")
     parser.add_argument("--port", type=int, default=1883, help="Broker Port")
     parser.add_argument("--username", default="admin", help="Target Username")
     parser.add_argument("--wordlist", nargs="*", help="Direct list of passwords")
