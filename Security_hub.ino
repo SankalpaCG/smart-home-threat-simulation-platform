@@ -3,9 +3,9 @@
 #include <ArduinoJson.h>
 
 // --- WIFI & BROKER CONFIGURATION ---
-const char* ssid = "WIFI-2ES5Z4N";         
-const char* password = "29JRt#K5?QRfsG?7"; 
-const char* mqtt_server = "192.168.1.105";    
+const char* ssid = "Crown_Student";         
+const char* password = "student123"; 
+const char* mqtt_server = "192.168.21.89";    
 
 WiFiClient espClient;
 PubSubClient client(espClient);
