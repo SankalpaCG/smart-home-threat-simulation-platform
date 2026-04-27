@@ -18,7 +18,8 @@ BANNER = """
 """
 
 # Configuration for standardized logging
-BASE_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset"
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+BASE_DIR = os.path.join(PROJECT_ROOT, "dataset")
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 SESSIONS_DIR = os.path.join(BASE_DIR, "sessions")
 
@@ -52,7 +53,7 @@ POISON_PAYLOADS = [
 
 def main():
     parser = argparse.ArgumentParser(description="Advanced Structured Protocol Analysis (Fuzzing)")
-    parser.add_argument("--broker", default="192.168.21.89", help="Target Broker IP")
+    parser.add_argument("--broker", default=os.getenv("MQTT_BROKER", "localhost"), help="Target Broker IP")
     parser.add_argument("--topic", default="shtsp/home/security/motion", help="Audit Topic")
     
     args = parser.parse_args()

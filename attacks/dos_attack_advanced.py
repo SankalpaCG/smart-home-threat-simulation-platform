@@ -19,7 +19,8 @@ BANNER = """
 """
 
 # Configuration for standardized logging
-BASE_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset"
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+BASE_DIR = os.path.join(PROJECT_ROOT, "dataset")
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 SESSIONS_DIR = os.path.join(BASE_DIR, "sessions")
 
@@ -116,7 +117,7 @@ def main():
     args = parser.parse_args()
     
     # Using specific Broker for this environment
-    BROKER_IP = "192.168.21.89" 
+    BROKER_IP = os.getenv("MQTT_BROKER", "localhost") 
     
     simulator = DoSResearchSimulator(args.clients, BROKER_IP, 1883)
     simulator.run_flood(args.duration)

@@ -18,7 +18,8 @@ BANNER = """
 """
 
 # Configuration for standardized logging
-BASE_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset"
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+BASE_DIR = os.path.join(PROJECT_ROOT, "dataset")
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 SESSIONS_DIR = os.path.join(BASE_DIR, "sessions")
 
@@ -84,7 +85,7 @@ def flapping_attack(broker, port, target_id, count, interval, logger):
 def main():
     parser = argparse.ArgumentParser(description="Advanced Connectivity Disruption Analysis")
     parser.add_argument("--target", default="shtsp_Security_Hub_01", help="Target Client ID")
-    parser.add_argument("--broker", default="192.168.21.89", help="Broker IP")
+    parser.add_argument("--broker", default=os.getenv("MQTT_BROKER", "localhost"), help="Broker IP")
     parser.add_argument("--port", type=int, default=1883, help="Broker Port")
     parser.add_argument("--mode", choices=["silent", "flapping"], default="silent", help="Analysis Mode")
     parser.add_argument("--duration", type=int, default=30, help="Hold duration (seconds)")

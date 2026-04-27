@@ -26,7 +26,8 @@ BANNER = """
 """
 
 # Configuration for standardized logging
-BASE_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset"
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+BASE_DIR = os.path.join(PROJECT_ROOT, "dataset")
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 SESSIONS_DIR = os.path.join(BASE_DIR, "sessions")
 
@@ -101,7 +102,7 @@ def print_progress(current, total, start_time):
 
 def main():
     parser = argparse.ArgumentParser(description="Advanced MQTT Brute Force Simulation")
-    parser.add_argument("--broker", default="192.168.21.89", help="Target Broker IP")
+    parser.add_argument("--broker", default=os.getenv("MQTT_BROKER", "localhost"), help="Target Broker IP")
     parser.add_argument("--port", type=int, default=1883, help="Broker Port")
     parser.add_argument("--username", default="admin", help="Target Username")
     parser.add_argument("--wordlist", nargs="*", help="Direct list of passwords")

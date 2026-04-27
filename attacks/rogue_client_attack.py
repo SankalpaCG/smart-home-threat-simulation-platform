@@ -19,11 +19,12 @@ BANNER = """
 """
 
 # Configuration for standardized logging
-BASE_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset"
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+BASE_DIR = os.path.join(PROJECT_ROOT, "dataset")
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 SESSIONS_DIR = os.path.join(BASE_DIR, "sessions")
 
-BROKER = "192.168.21.89"
+BROKER = os.getenv("MQTT_BROKER", "localhost")
 PORT = 1883
 
 # Advanced Identity Pool for Reconnaissance
@@ -100,7 +101,7 @@ def run_probe(identity, broker=BROKER):
 
 def main():
     parser = argparse.ArgumentParser(description="Advanced Broker Identity Reconnaissance Analysis")
-    parser.add_argument("--broker", default="192.168.21.89", help="Target Broker IP")
+    parser.add_argument("--broker", default=os.getenv("MQTT_BROKER", "localhost"), help="Target Broker IP")
     parser.add_argument("--all", action="store_true", help="Rotate through all identity probes")
     
     args = parser.parse_args()

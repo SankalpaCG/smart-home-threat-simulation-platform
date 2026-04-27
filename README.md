@@ -1,5 +1,9 @@
 # Smart Home Threat Simulation Platform
 
+> Start here for the current runnable layout: [RUN_SYSTEM.md](RUN_SYSTEM.md).
+
+The repository is organized around `demo/` for the real Security Hub hardware demo, `dataset/labeled/` for Normal/DoS CSVs, `firmware/` for ESP32 sketches, and `attacks/` plus `defence/` for the broader research suite.
+
 ## 🏠 Project Overview
 
 This is a **Capstone project** focusing on creating a **Smart Home Threat Simulation Platform** using ESP32 microcontrollers. The platform combines real hardware with simulation to create a comprehensive IoT security testing environment for generating security datasets and evaluating threat detection mechanisms.
@@ -326,7 +330,7 @@ The platform utilizes an advanced research framework, extending standard MQTT si
 
 ### **Getting Started:**
 1. Clone the repository.
-2. Review **[DEPENDENCIES.md](file:///home/pirator/smart-home-threat-simulation-platform/DEPENDENCIES.md)** and install all required libraries.
+2. Review **[DEPENDENCIES.md](DEPENDENCIES.md)** and install all required libraries.
 3. Review `SMART_HOME_THREAT_SIMULATION_PLAN.md`.
 3. Set up development environment
 4. Start with Phase 1 tasks

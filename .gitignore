@@ -57,6 +57,9 @@ yarn-error.log*
 logs/
 
 # Credentials and sensitive data
+.env
+.env.*
+!.env.example
 *.env
 *.pem
 *.key

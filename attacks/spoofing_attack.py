@@ -20,12 +20,13 @@ BANNER = """
 """
 
 # Target Environment Configuration
-BROKER = "192.168.21.89"
+BROKER = os.getenv("MQTT_BROKER", "localhost")
 PORT = 1883
 TARGET_TOPIC = "shtsp/home/security/motion"
 
 # Configuration for standardized logging
-BASE_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset"
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+BASE_DIR = os.path.join(PROJECT_ROOT, "dataset")
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 SESSIONS_DIR = os.path.join(BASE_DIR, "sessions")
 

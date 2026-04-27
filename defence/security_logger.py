@@ -17,7 +17,7 @@ BANNER = """
 """
 
 # Configuration
-BROKER = "192.168.21.89"
+BROKER = os.getenv("MQTT_BROKER", "localhost")
 PORT = 1883
 TOPICS = "#"
 # Absolute pathing for dataset reliability
