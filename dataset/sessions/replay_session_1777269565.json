@@ -1,0 +1,7 @@
+{
+    "timestamp": 1777269565,
+    "attack_type": "Replay_Simulation",
+    "capture_duration": 30,
+    "delay_interval": 10,
+    "packet_count": 0
+}
