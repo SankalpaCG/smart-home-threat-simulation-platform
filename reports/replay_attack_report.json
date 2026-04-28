@@ -2,11 +2,11 @@
   "test_name": "Replay Attack - Labeled Dataset (3 cycles)",
   "dataset_file": "C:\\Users\\Test\\project\\smart-home-threat-simulation-platform\\dataset\\labeled\\dataset_Normal.csv",
   "dry_run": false,
-  "timestamp": "2026-04-27T15:40:27.782418",
-  "elapsed_time_seconds": 15.6332,
+  "timestamp": "2026-04-27T16:03:19.248198",
+  "elapsed_time_seconds": 15.6084,
   "packets_sent": 114,
   "successful_packets": 114,
   "failed_packets": 0,
   "success_rate_percent": 100.0,
-  "throughput_pps": 7.2922
+  "throughput_pps": 7.3038
 }
