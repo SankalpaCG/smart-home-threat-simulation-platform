@@ -1,9 +1,9 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 
-const char* ssid = "Wokwi-GUEST";
-const char* password = "";
-const char* mqtt_server = "broker.hivemq.com";
+const char* ssid = "Crown_Student";
+const char* password = "student123";
+const char* mqtt_server = "192.168.1.107";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -28,7 +28,7 @@ void setup() {
 }
 
 void loop() {
-  if (!client.connected()) client.connect("ESP32_Security_Hub");
+  if (!client.connected()) client.connect("ESP32_Security_Hub", "admin", "iot@secure99");
   client.loop();
 
   if (digitalRead(PIR_PIN) == HIGH) {

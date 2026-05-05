@@ -5,7 +5,7 @@
 // --- WIFI & BROKER CONFIGURATION ---
 const char* ssid = "Crown_Student";         
 const char* password = "student123"; 
-const char* mqtt_server = "192.168.21.89";    
+const char* mqtt_server = "192.168.1.107";    
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -173,7 +173,7 @@ void reconnect() {
     String willTopic   = "shtsp/home/security/heartbeat";
     String willMessage = "{\"status\": \"OFFLINE\", \"reason\": \"UNEXPECTED_DISCONNECT\"}";
 
-    if (client.connect("shtsp_Security_Hub_01", NULL, NULL,
+    if (client.connect("shtsp_Security_Hub_01", "admin", "iot@secure99",
                        willTopic.c_str(), 1, true, willMessage.c_str())) {
       Serial.println("✅ [MQTT] Connected.");
       client.subscribe("shtsp/home/security/cmd");

@@ -27,7 +27,7 @@ RISK_THRESHOLD = 85.0
 DOS_VOLUME_THRESHOLD = 100 # High-velocity packet trigger
 
 class SovereignGuard:
-    def __init__(self, broker="192.168.21.89"):
+    def __init__(self, broker="192.168.1.107"):
         self.broker = broker
         self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, "Sovereign_Guard")
         self.headers = ["timestamp", "mitigation_action", "reason", "target_topic"]

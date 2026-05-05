@@ -23,7 +23,7 @@ BASE_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset"
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 SESSIONS_DIR = os.path.join(BASE_DIR, "sessions")
 
-BROKER = "192.168.21.89"
+BROKER = "192.168.1.107"
 PORT = 1883
 TOPICS = ["shtsp/home/security/heartbeat", "shtsp/home/security/motion"]
 
@@ -107,7 +107,7 @@ class AdvancedReplaySimulator:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Advanced Time-Shifted Replay Simulation")
-    parser.add_argument("--broker", default="192.168.21.89", help="Target Broker IP")
+    parser.add_argument("--broker", default="192.168.1.107", help="Target Broker IP")
     parser.add_argument("--capture", type=int, default=30, help="Capture phase (seconds)")
     parser.add_argument("--delay", type=int, default=10, help="Delay phase (seconds)")
     
