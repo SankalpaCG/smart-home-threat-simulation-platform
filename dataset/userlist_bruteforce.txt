@@ -1,0 +1,10 @@
+smart
+root
+user
+guest
+test
+mqtt
+pi
+camera
+sensor
+admin

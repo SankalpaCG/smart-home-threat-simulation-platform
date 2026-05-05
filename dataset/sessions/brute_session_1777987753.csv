@@ -1,0 +1,2 @@
+timestamp,attack_type,attack_label,target,src_ip,usernames_tried,total_attempts,success,cracked_password,duration_sec,speed_att_s,log_base
+1777987753,Brute_Force,1,192.168.1.107,172.28.233.179,10,100010,True,iot@secure99,2102.58,47.57,brute_attempts_1777985650
