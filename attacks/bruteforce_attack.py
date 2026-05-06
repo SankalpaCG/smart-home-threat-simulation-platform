@@ -341,7 +341,7 @@ def print_progress(current, total, start_time):
 def main():
     print(BANNER)
     parser = argparse.ArgumentParser(description="MQTT Brute Force — ML-IDS Dataset Generator")
-    parser.add_argument("--broker",   default="192.168.1.107", help="Target Broker IP")
+    parser.add_argument("--broker",   default="192.168.21.120", help="Target Broker IP")
     parser.add_argument("--port",     type=int, default=1883,   help="Broker Port")
     parser.add_argument("--username",                           help="Single Target Username")
     parser.add_argument("--userlist",                           help="Path to username list (.txt)")

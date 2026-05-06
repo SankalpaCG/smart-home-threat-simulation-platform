@@ -116,7 +116,7 @@ def main():
     args = parser.parse_args()
     
     # Using specific Broker for this environment
-    BROKER_IP = "192.168.1.107" 
+    BROKER_IP = "192.168.21.120" 
     
     simulator = DoSResearchSimulator(args.clients, BROKER_IP, 1883)
     simulator.run_flood(args.duration)
