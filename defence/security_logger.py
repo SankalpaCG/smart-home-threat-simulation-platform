@@ -3,6 +3,10 @@ import time
 import json
 import paho.mqtt.client as mqtt
 import sys
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Ensure the project root is in the path for forensic_utils
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -17,8 +21,8 @@ BANNER = """
 """
 
 # Configuration
-BROKER = "192.168.21.89"
-PORT = 1883
+BROKER = os.getenv("MQTT_BROKER_NETWORK", "192.168.21.89")
+PORT = int(os.getenv("MQTT_PORT", "1883"))
 TOPICS = "#"
 # Absolute pathing for dataset reliability
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -138,7 +142,7 @@ def main():
     client.on_message = on_message_handler
 
     try:
-        client.connect(BROKER, 1883, 60)
+        client.connect(BROKER, PORT, 60)
         client.loop_forever()
     except KeyboardInterrupt:
         print("\n🛑 Telemetry sync terminated safely. All research traces synchronized.")

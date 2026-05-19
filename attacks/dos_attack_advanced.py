@@ -5,6 +5,10 @@ import random
 import json
 import argparse
 import paho.mqtt.client as mqtt
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Ensure the project root is in the path for forensic_utils
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -116,9 +120,10 @@ def main():
     args = parser.parse_args()
     
     # Using specific Broker for this environment
-    BROKER_IP = "192.168.21.89" 
+    BROKER_IP = os.getenv("MQTT_BROKER_NETWORK", "192.168.21.89") 
+    PORT = int(os.getenv("MQTT_PORT", "1883"))
     
-    simulator = DoSResearchSimulator(args.clients, BROKER_IP, 1883)
+    simulator = DoSResearchSimulator(args.clients, BROKER_IP, PORT)
     simulator.run_flood(args.duration)
 
 if __name__ == "__main__":

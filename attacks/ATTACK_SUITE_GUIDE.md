@@ -1,5 +1,9 @@
 # 🛡️ Sovereignty Research Suite: Advanced IoT Attack Guide
 
+> NOTE: Only the replay attack is active in this workspace. Other attack scripts have been moved to `attacks/disabled_attacks/`.
+>
+>This guide is retained for reference, but the current executable attack path is `attacks/replay_attack.py`.
+
 This document defines the professional methodology for evaluating and stressing IoT security frameworks using the **Sovereignty Research Suite**. Every attack vector is designed to mimic high-fidelity adversarial logic, providing rigorous data for Intrusion Detection System (IDS) validation.
 
 ---

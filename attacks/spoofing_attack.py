@@ -6,6 +6,10 @@ import random
 import threading
 import sys
 import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Ensure the project root is in the path for forensic_utils
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -20,9 +24,9 @@ BANNER = """
 """
 
 # Target Environment Configuration
-BROKER = "192.168.21.89"
-PORT = 1883
-TARGET_TOPIC = "shtsp/home/security/motion"
+BROKER = os.getenv("MQTT_BROKER_NETWORK", "192.168.21.89")
+PORT = int(os.getenv("MQTT_PORT", 1883))
+TARGET_TOPIC = os.getenv("MQTT_TOPIC_SECURITY_MOTION", "shtsp/home/security/motion")
 
 # Configuration for standardized logging
 BASE_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset"

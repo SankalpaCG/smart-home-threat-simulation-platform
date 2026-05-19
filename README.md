@@ -13,7 +13,20 @@ To build a hybrid (virtual + physical) IoT security testing platform that:
 
 ---
 
-## 📁 Current Project Structure
+## � Setup
+
+Use a local virtual environment and install dependencies from `requirements.txt`:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+If you already have a `.venv` folder, reactivate it before running the attack scripts.
+
+## �📁 Current Project Structure
 
 ```bash
 .

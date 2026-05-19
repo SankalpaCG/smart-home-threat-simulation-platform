@@ -4,6 +4,10 @@ import paho.mqtt.client as mqtt
 import time
 import argparse
 import json
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Ensure the project root is in the path for forensic_utils
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -84,8 +88,8 @@ def flapping_attack(broker, port, target_id, count, interval, logger):
 def main():
     parser = argparse.ArgumentParser(description="Advanced Connectivity Disruption Analysis")
     parser.add_argument("--target", default="shtsp_Security_Hub_01", help="Target Client ID")
-    parser.add_argument("--broker", default="192.168.21.89", help="Broker IP")
-    parser.add_argument("--port", type=int, default=1883, help="Broker Port")
+    parser.add_argument("--broker", default=os.getenv("MQTT_BROKER_NETWORK", "192.168.21.89"), help="Broker IP")
+    parser.add_argument("--port", type=int, default=int(os.getenv("MQTT_PORT", "1883")), help="Broker Port")
     parser.add_argument("--mode", choices=["silent", "flapping"], default="silent", help="Analysis Mode")
     parser.add_argument("--duration", type=int, default=30, help="Hold duration (seconds)")
     parser.add_argument("--count", type=int, default=10, help="Cycles for flapping mode")

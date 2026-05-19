@@ -42,6 +42,8 @@ __pycache__/
 .Python
 env/
 venv/
+.venv/
+.venv-1/
 ENV/
 env.bak/
 venv.bak/
@@ -79,6 +81,9 @@ temp/
 # Wokwi cache
 .wokwi/
 wokwi-cache/
+
+# Claude workspace metadata
+.claude/
 
 # Compiled binaries
 *.exe

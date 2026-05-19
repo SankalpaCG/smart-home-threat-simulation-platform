@@ -9,6 +9,10 @@ import csv
 import random
 from queue import Queue
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 import sys
 import os
@@ -101,8 +105,8 @@ def print_progress(current, total, start_time):
 
 def main():
     parser = argparse.ArgumentParser(description="Advanced MQTT Brute Force Simulation")
-    parser.add_argument("--broker", default="192.168.21.89", help="Target Broker IP")
-    parser.add_argument("--port", type=int, default=1883, help="Broker Port")
+    parser.add_argument("--broker", default=os.getenv("MQTT_BROKER_NETWORK", "192.168.21.89"), help="Target Broker IP")
+    parser.add_argument("--port", type=int, default=int(os.getenv("MQTT_PORT", "1883")), help="Broker Port")
     parser.add_argument("--username", default="admin", help="Target Username")
     parser.add_argument("--wordlist", nargs="*", help="Direct list of passwords")
     parser.add_argument("--file", help="Path to password file (.txt)")

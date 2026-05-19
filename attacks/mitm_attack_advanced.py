@@ -8,6 +8,10 @@ import time
 import argparse
 import os
 import sys
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 def get_mac(ip):
     """
@@ -58,7 +62,7 @@ def main():
     parser = argparse.ArgumentParser(description="Advanced Man-in-the-Middle Attack (ARP Spoofing)")
     parser.add_argument("--target", required=True, help="Target Device IP (e.g., ESP32)")
     parser.add_argument("--gateway", required=True, help="Gateway/Broker IP")
-    parser.add_argument("--topic", default="shtsp/home/lock/cmd", help="MQTT Topic to intercept")
+    parser.add_argument("--topic", default=os.getenv("MQTT_TOPIC_LOCK_CMD", "shtsp/home/lock/cmd"), help="MQTT Topic to intercept")
     parser.add_argument("--modify", default="UNLOCK", help="Payload to inject")
     parser.add_argument("--interface", default="eth0", help="Network interface to use")
     

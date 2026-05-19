@@ -5,6 +5,10 @@ import argparse
 import random
 import time
 import json
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Ensure the project root is in the path for forensic_utils
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -23,8 +27,8 @@ BASE_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset"
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 SESSIONS_DIR = os.path.join(BASE_DIR, "sessions")
 
-BROKER = "192.168.21.89"
-PORT = 1883
+BROKER = os.getenv("MQTT_BROKER_NETWORK", "192.168.21.89")
+PORT = int(os.getenv("MQTT_PORT", 1883))
 
 # Advanced Identity Pool for Reconnaissance
 PROBE_IDENTITIES = [
@@ -100,7 +104,7 @@ def run_probe(identity, broker=BROKER):
 
 def main():
     parser = argparse.ArgumentParser(description="Advanced Broker Identity Reconnaissance Analysis")
-    parser.add_argument("--broker", default="192.168.21.89", help="Target Broker IP")
+    parser.add_argument("--broker", default=os.getenv("MQTT_BROKER_NETWORK", "192.168.21.89"), help="Target Broker IP")
     parser.add_argument("--all", action="store_true", help="Rotate through all identity probes")
     
     args = parser.parse_args()

@@ -4,6 +4,10 @@ import sys
 import pandas as pd
 import os
 import json
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Ensure the project root is in the path for forensic_utils
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -27,8 +31,9 @@ RISK_THRESHOLD = 85.0
 DOS_VOLUME_THRESHOLD = 100 # High-velocity packet trigger
 
 class SovereignGuard:
-    def __init__(self, broker="192.168.21.89"):
+    def __init__(self, broker=os.getenv("MQTT_BROKER_NETWORK", "192.168.21.89")):
         self.broker = broker
+        self.port = int(os.getenv("MQTT_PORT", "1883"))
         self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, "Sovereign_Guard")
         self.headers = ["timestamp", "mitigation_action", "reason", "target_topic"]
         self.log_base = "guard_mitigation_audit"
@@ -66,7 +71,7 @@ class SovereignGuard:
         print("-" * 50)
         
         try:
-            self.client.connect(self.broker, 1883, 60)
+            self.client.connect(self.broker, self.port, 60)
             self.client.loop_start()
             
             last_row_count = 0

@@ -4,6 +4,10 @@ import paho.mqtt.client as mqtt
 import argparse
 import json
 import time
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Ensure the project root is in the path for forensic_utils
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -52,8 +56,9 @@ POISON_PAYLOADS = [
 
 def main():
     parser = argparse.ArgumentParser(description="Advanced Structured Protocol Analysis (Fuzzing)")
-    parser.add_argument("--broker", default="192.168.21.89", help="Target Broker IP")
-    parser.add_argument("--topic", default="shtsp/home/security/motion", help="Audit Topic")
+    parser.add_argument("--broker", default=os.getenv("MQTT_BROKER_NETWORK", "192.168.21.89"), help="Target Broker IP")
+    parser.add_argument("--topic", default=os.getenv("MQTT_TOPIC_SECURITY_MOTION", "shtsp/home/security/motion"), help="Audit Topic")
+    parser.add_argument("--port", type=int, default=int(os.getenv("MQTT_PORT", "1883")), help="Broker Port")
     
     args = parser.parse_args()
 
@@ -65,7 +70,7 @@ def main():
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, "Research_Fuzz_Agent")
     
     try:
-        client.connect(args.broker, 1883, 60)
+        client.connect(args.broker, args.port, 60)
         
         for p in POISON_PAYLOADS:
             print(f"[!] Evaluation Vector: {p['name']} ({len(p['data'])} bytes)")
