@@ -45,19 +45,7 @@ As we approach our final defense, we are completing the following:
 
 ---
 
-## 🤝 The Capstone Team
 
-This platform is the culmination of the dedicated, specialized efforts of our five-member team. Every member owned a critical layer of the technology stack.
-
-| Member | Role & Detailed Contributions |
-|--------|-------------------------------|
-| **Sankalpa Ghimire** | **Hardware & Firmware Lead**<br>Sankalpa was responsible for the physical layer. He engineered the ESP32 circuit designs, integrated the PIR motion sensors and alarm systems, and wrote the C++ firmware (`Security_hub.ino`). He ensured the hardware maintained a stable, continuous MQTT heartbeat with the broker during extreme network stress tests. |
-| **Deepak Sharma** | **Software & Backend Lead**<br>Deepak architected the core network topology. He configured the Mosquitto MQTT broker, developed the Node.js API backend (`server.js`) that manages subprocess execution, and solved complex cross-platform routing issues. He also engineered the dynamic WSL IP automation that keeps the platform stable across reboots. |
-| **Amir Kumar Pachhai**| **Security & Attack Simulation Lead**<br>Amir owned the offensive operations. He conducted rigorous threat modeling and developed the custom Python attack suite (`attacks/` folder). He engineered the Brute Force, DoS, and Replay scripts, ensuring they bypassed standard security measures and generated realistic, chaotic network traffic for the AI to analyze. |
-| **Sadikshya Dahal**  | **Data Science & ML Lead**<br>Sadikshya architected the AI brain of the project. She led the creation of the 27-feature extraction pipeline, managed the `feature_engineering.py` dataset generation, and developed the Google Colab Machine Learning notebooks. Her Random Forest model is the core logic that successfully identifies zero-day anomalies with high precision. |
-| **Shashi Simkhada**  | **Frontend & Visualization Lead**<br>Shashi designed the visual identity and user experience. She built the stunning React/Vite dashboard, translating raw CSV telemetry into beautiful, real-time UI components (Threat Heatmaps, Scatter Plots, Radar Charts). She also led the project's documentation, slide decks, and presentation strategy. |
-
----
 
 ## 📁 Final Project Structure
 
