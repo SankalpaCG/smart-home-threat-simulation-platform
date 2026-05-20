@@ -1,0 +1,4 @@
+timestamp,src_ip,target_ip,attack_label,attack_type,packets_per_second,mqtt_publish_rate,broker_response_latency_ms,device_heap_free_bytes,auth_attempt_rate,auth_failure_rate,unique_passwords_tried,result_code,password_length,payload_entropy,auth_success_rate,credential_entropy,duplicate_payload_rate,msg_timestamp_delta_ms,motion,arm,inter_arrival_mean_ms,inter_arrival_std_ms,consecutive_failures,session_attempt_count,session_failure_rate,latency_zscore
+2026-05-19T16:46:45.061788,172.28.233.179,192.168.21.165,1,brute_force,3.0,0.0,6.6891,235000,1.0,1.0,1,5,4,2.0,0.0,2.0,0.0,0.0,0,0,0.0,0.0,1,1,1.0,0.0
+2026-05-19T16:46:45.063361,172.28.233.179,192.168.21.165,1,brute_force,3754.9722,0.0,6.1827,235000,1251.6574,1251.6574,2,5,5,2.3219,0.0,3.1699,0.0,1.5979,0,0,1.5979,0.0,2,2,1.0,-1.0
+2026-05-19T16:46:45.069233,172.28.233.179,192.168.21.165,1,brute_force,810.6501,0.0,2.7959,235000,270.2167,270.2167,3,5,8,2.75,0.0,3.7345,0.0,5.5511,0,0,5.5511,3.9532,3,3,1.0,-1.4041

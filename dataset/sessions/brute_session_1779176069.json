@@ -1,0 +1,14 @@
+{
+    "timestamp": 1779176069,
+    "attack_type": "Brute_Force",
+    "attack_label": 1,
+    "target": "192.168.21.165",
+    "src_ip": "172.28.233.179",
+    "usernames_tried": 1,
+    "total_attempts": 10001,
+    "success": true,
+    "cracked_password": "iot@secure99",
+    "duration_sec": 153.13,
+    "speed_att_s": 65.31,
+    "log_base": "brute_attempts_1779175916"
+}

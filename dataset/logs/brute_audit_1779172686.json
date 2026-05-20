@@ -1,0 +1,4 @@
+{"timestamp": "2026-05-19T16:38:06.079653", "target_ip": "192.168.21.165", "username": "admin", "password": "1234", "result": "BAD_CREDENTIALS"}
+{"timestamp": "2026-05-19T16:38:06.488918", "target_ip": "192.168.21.165", "username": "admin", "password": "admin", "result": "BAD_CREDENTIALS"}
+{"timestamp": "2026-05-19T16:38:06.490710", "target_ip": "192.168.21.165", "username": "admin", "password": "1234", "result": "BAD_CREDENTIALS"}
+{"timestamp": "2026-05-19T16:38:06.497400", "target_ip": "192.168.21.165", "username": "admin", "password": "iot123", "result": "BAD_CREDENTIALS"}

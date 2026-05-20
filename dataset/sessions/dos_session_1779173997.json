@@ -1,0 +1,12 @@
+{
+    "timestamp": 1779173997,
+    "attack_type": "Distributed_Denial_of_Service",
+    "config": {
+        "clients": 2,
+        "duration_sec": 60
+    },
+    "results": {
+        "total_packets_sent": 120,
+        "avg_throughput_pps": 2.0
+    }
+}

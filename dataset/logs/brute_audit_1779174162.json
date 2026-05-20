@@ -1,0 +1,9 @@
+{"timestamp": "2026-05-19T17:02:42.335878", "target_ip": "192.168.21.165", "username": "admin", "password": "admin", "result": "BAD_CREDENTIALS"}
+{"timestamp": "2026-05-19T17:02:42.335776", "target_ip": "192.168.21.165", "username": "admin", "password": "1234", "result": "BAD_CREDENTIALS"}
+{"timestamp": "2026-05-19T17:02:43.340963", "target_ip": "192.168.21.165", "username": "admin", "password": "password", "result": "BAD_CREDENTIALS"}
+{"timestamp": "2026-05-19T17:02:43.342633", "target_ip": "192.168.21.165", "username": "admin", "password": "iot123", "result": "BAD_CREDENTIALS"}
+{"timestamp": "2026-05-19T17:02:43.345139", "target_ip": "192.168.21.165", "username": "admin", "password": "root", "result": "BAD_CREDENTIALS"}
+{"timestamp": "2026-05-19T17:02:43.349442", "target_ip": "192.168.21.165", "username": "admin", "password": "admin123", "result": "BAD_CREDENTIALS"}
+{"timestamp": "2026-05-19T17:02:43.352416", "target_ip": "192.168.21.165", "username": "admin", "password": "smart", "result": "BAD_CREDENTIALS"}
+{"timestamp": "2026-05-19T17:02:44.347624", "target_ip": "192.168.21.165", "username": "admin", "password": "123456", "result": "BAD_CREDENTIALS"}
+{"timestamp": "2026-05-19T17:02:44.355510", "target_ip": "192.168.21.165", "username": "admin", "password": "home", "result": "BAD_CREDENTIALS"}

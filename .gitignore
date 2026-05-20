@@ -105,8 +105,9 @@ coverage/
 .project
 .cproject
 # Research Data and Telemetry
-dataset/logs/
-dataset/sessions/
+# dataset/logs/
+# dataset/sessions/
 node_modules/
 dashboard/node_modules/
 dashboard/ui/node_modules/
+dashboard/ui/.vite/

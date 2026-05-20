@@ -1,4 +1,4 @@
-# 🛡️ Sovereignty OS: Smart Home Threat Simulation & ML-IPS Platform
+# 🛡️ Smart Home Threat Simulation & ML-IPS Platform
 
 [![Status](https://img.shields.io/badge/Status-Pre--Release-blue.svg)]()
 [![ML Pipeline](https://img.shields.io/badge/ML_Engine-Random_Forest-orange.svg)]()

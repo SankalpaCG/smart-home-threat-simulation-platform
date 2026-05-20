@@ -1,0 +1,5 @@
+timestamp,target_ip,username,password,result
+2026-05-19T16:46:45.063929,192.168.21.165,admin,1234,BAD_CREDENTIALS
+timestamp,target_ip,username,password,result
+2026-05-19T16:46:45.065249,192.168.21.165,admin,admin,BAD_CREDENTIALS
+2026-05-19T16:46:45.070215,192.168.21.165,admin,password,BAD_CREDENTIALS

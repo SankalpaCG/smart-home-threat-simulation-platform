@@ -1,0 +1,2 @@
+timestamp,attack_type,attack_label,target,src_ip,usernames_tried,total_attempts,success,cracked_password,duration_sec,speed_att_s,log_base
+1779173934,Brute_Force,1,192.168.21.165,172.28.233.179,1,9,False,,3.5,2.57,brute_attempts_1779173931

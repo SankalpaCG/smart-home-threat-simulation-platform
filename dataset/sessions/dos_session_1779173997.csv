@@ -1,0 +1,2 @@
+timestamp,attack_type,config_clients,config_duration_sec,results_total_packets_sent,results_avg_throughput_pps
+1779173997,Distributed_Denial_of_Service,2,60,120,2.0
