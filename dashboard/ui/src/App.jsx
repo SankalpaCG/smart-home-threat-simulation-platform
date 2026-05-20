@@ -66,7 +66,7 @@ function App() {
           </div>
           <div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              Sovereignty OS
+              Smart Home Threat Simulation Platform
             </h1>
             <p className="text-slate-400 text-sm tracking-widest uppercase">Active ML-IPS Deployment Node</p>
           </div>
