@@ -24,12 +24,13 @@ os.makedirs(LOG_DIR, exist_ok=True)
 
 ML_HEADERS = [
     "timestamp", "src_ip", "target_ip", "attack_label", "attack_type",
-    "broker_response_latency_ms", "result_code", "password_length", "payload_entropy",
-    "auth_attempt_rate", "auth_failure_rate", "auth_success_rate",
-    "unique_passwords_tried", "credential_entropy",
-    "inter_arrival_mean_ms", "inter_arrival_std_ms",
-    "consecutive_failures", "session_attempt_count",
-    "session_failure_rate", "latency_zscore",
+    "packets_per_second", "mqtt_publish_rate", "broker_response_latency_ms",
+    "device_heap_free_bytes", "auth_attempt_rate", "auth_failure_rate",
+    "unique_passwords_tried", "result_code", "password_length", "payload_entropy",
+    "auth_success_rate", "credential_entropy", "duplicate_payload_rate",
+    "msg_timestamp_delta_ms", "motion", "arm", "inter_arrival_mean_ms",
+    "inter_arrival_std_ms", "consecutive_failures", "session_attempt_count",
+    "session_failure_rate", "latency_zscore"
 ]
 
 # Realistic IoT device topics
@@ -123,16 +124,22 @@ class NormalTrafficCollector:
             sfr = self.failures / self.total
 
             return {
+                "packets_per_second":       round(1.0 / max(iat_mean/1000, 0.001), 4) if iat_mean > 0 else 0,
+                "mqtt_publish_rate":        round(1.0 / max(iat_mean/1000, 0.001), 4) if iat_mean > 0 else 0,
                 "broker_response_latency_ms": round(latency_ms, 4),
+                "device_heap_free_bytes":   235000,
+                "auth_attempt_rate":    round(1.0 / max(iat_mean/1000, 0.001), 4) if iat_mean > 0 else 0,
+                "auth_failure_rate":    0.0,
+                "unique_passwords_tried": 1,
                 "result_code":          rc,
                 "password_length":      len(password),
                 "payload_entropy":      round(shannon_entropy(password), 4),
-                # Normal traffic: very low auth attempt rate
-                "auth_attempt_rate":    round(1.0 / max(iat_mean/1000, 0.001), 4) if iat_mean > 0 else 0,
-                "auth_failure_rate":    0.0,
                 "auth_success_rate":    round(1.0 / max(iat_mean/1000, 0.001), 4) if iat_mean > 0 else 0,
-                "unique_passwords_tried": 1,    # always same real password
                 "credential_entropy":   round(shannon_entropy(password), 4),
+                "duplicate_payload_rate": 0.0,
+                "msg_timestamp_delta_ms": round(iat_mean, 4),
+                "motion":               0,
+                "arm":                  0,
                 "inter_arrival_mean_ms": round(iat_mean, 4),
                 "inter_arrival_std_ms":  round(iat_std,  4),
                 "consecutive_failures":  self.consec_fail,
@@ -234,7 +241,7 @@ class NormalTrafficCollector:
 
 def main():
     parser = argparse.ArgumentParser(description="Normal MQTT Traffic Collector for ML-IDS")
-    parser.add_argument("--broker",   default="192.168.21.120")
+    parser.add_argument("--broker",   default="192.168.21.165")
     parser.add_argument("--port",     type=int, default=1883)
     parser.add_argument("--username", default="admin")
     parser.add_argument("--password", default="iot@secure99")

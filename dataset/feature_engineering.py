@@ -25,8 +25,12 @@ def generate_dataset():
     for f in target_files:
         try:
             df = pd.read_csv(f)
-            dfs.append(df)
-            print(f"  + Loaded: {os.path.basename(f)} ({len(df)} rows)")
+            # Strict 27-feature schema enforcement
+            if len(df.columns) == 27:
+                dfs.append(df)
+                print(f"  + Loaded: {os.path.basename(f)} ({len(df)} rows, 27 cols)")
+            else:
+                print(f"  ⚠️ Warning: {os.path.basename(f)} ignored! Has {len(df.columns)} cols, expected 27.")
         except Exception as e:
             print(f"  - Error loading {os.path.basename(f)}: {e}")
             
@@ -47,7 +51,7 @@ def generate_dataset():
     combined_df = combined_df.dropna(subset=['attack_label', 'timestamp'])
     
     # Sort chronologically
-    combined_df['timestamp'] = pd.to_datetime(combined_df['timestamp'])
+    combined_df['timestamp'] = pd.to_datetime(combined_df['timestamp'], format='mixed')
     combined_df = combined_df.sort_values(by='timestamp').reset_index(drop=True)
     
     # 5. Label Distribution Analysis

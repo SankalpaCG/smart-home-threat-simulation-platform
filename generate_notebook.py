@@ -5,7 +5,7 @@ nb = nbf.v4.new_notebook()
 title_md = """# 🛡️ Smart Home Threat Simulation Platform
 ## Intrusion Detection System (ML-IDS) - Random Forest Classifier
 
-This notebook trains a Random Forest model using the 20-feature dataset generated from our local IoT threat simulations. It is designed to maximize detection accuracy across `BRUTE_FORCE`, `DOS`, `REPLAY`, and `NORMAL` traffic."""
+This notebook trains a Random Forest model using the **full 25-feature dataset** generated from our local IoT threat simulations. It is designed to maximize detection accuracy across `BRUTE_FORCE`, `DOS`, `REPLAY`, and `NORMAL` traffic."""
 
 imports_code = """import pandas as pd
 import numpy as np
@@ -31,7 +31,7 @@ drive.mount('/content/drive')
 
 # NOTE: Make sure you upload 'combined_ml_dataset.csv' to your Google Drive!
 # Change this path if you put it inside a specific folder in your Drive.
-dataset_path = '/content/drive/MyDrive/Colab Notebooks/combined_ml_dataset.csv'
+dataset_path = '/content/drive/MyDrive/combined_ml_dataset.csv'
 
 # Load dataset
 df = pd.read_csv(dataset_path)
@@ -45,12 +45,22 @@ print(df['attack_type'].value_counts())
 df.head()"""
 
 prep_md = """### 2. Preprocessing
-We drop non-numerical identifiers (IPs, timestamp) and scale the features."""
+We use **all 25 features** for training. Non-numeric columns (src_ip, target_ip, attack_type, timestamp) are Label-Encoded so the Random Forest can extract context from them (e.g. attacker IP patterns, protocol types)."""
 
-prep_code = """# Drop non-feature columns
-drop_cols = ['timestamp', 'src_ip', 'target_ip', 'attack_type']
-X = df.drop(columns=drop_cols)
+prep_code = """from sklearn.preprocessing import LabelEncoder
+
+# Separate target label
 y = df['attack_label']
+X = df.drop(columns=['attack_label'])
+
+# Label-encode non-numeric columns so RF can process them
+non_numeric_cols = ['timestamp', 'src_ip', 'target_ip', 'attack_type']
+le = LabelEncoder()
+for col in non_numeric_cols:
+    X[col] = le.fit_transform(X[col].astype(str))
+
+print(f"Total features used for training: {X.shape[1]}")
+print(f"Feature columns: {list(X.columns)}")
 
 # Split data (80% train, 20% test)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
@@ -108,8 +118,8 @@ export_md = """### 5. Export Model for Live Deployment
 Save the `.pkl` files to deploy into the active IPS `live_ml_ips.py`."""
 
 export_code = """# Save model and scaler directly to Google Drive!
-model_export_path = '/content/drive/MyDrive/Colab Notebooks/random_forest_ids.pkl'
-scaler_export_path = '/content/drive/MyDrive/Colab Notebooks/scaler.pkl'
+model_export_path = '/content/drive/MyDrive/random_forest_ids.pkl'
+scaler_export_path = '/content/drive/MyDrive/scaler.pkl'
 
 joblib.dump(rf_model, model_export_path)
 joblib.dump(scaler, scaler_export_path)

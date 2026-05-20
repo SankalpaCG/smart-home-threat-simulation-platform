@@ -1,15 +1,61 @@
-# Smart Home Threat Simulation Platform
+# 🛡️ Sovereignty OS: Smart Home Threat Simulation & ML-IPS Platform
 
-## 🏠 Project Overview
+[![Status](https://img.shields.io/badge/Status-Pre--Release-blue.svg)]()
+[![ML Pipeline](https://img.shields.io/badge/ML_Engine-Random_Forest-orange.svg)]()
+[![Platform](https://img.shields.io/badge/Platform-Node.js%20%7C%20React%20%7C%20Python-green.svg)]()
 
-This is a **Capstone Project** focusing on creating an advanced **Smart Home Threat Simulation Platform**. The platform combines real ESP32 hardware with state-of-the-art **Machine Learning Intrusion Prevention Systems (ML-IPS)**. It is designed to act as a comprehensive IoT security environment for generating high-fidelity forensic datasets, training AI classifiers, and actively defending against zero-day IoT threats.
+## 📌 Executive Summary
 
-### **Project Vision**
-To build a hybrid (virtual + physical) IoT security testing platform that:
-1. Simulates real-world smart home attacks (Brute Force, DoS, Replay).
-2. Generates pristine, labeled, 20-feature security datasets for research.
-3. Employs a Cloud-to-Edge Machine Learning pipeline using Random Forests.
-4. Actively defends the network by automatically neutralizing attackers via OS-level firewalls.
+This repository hosts the **Smart Home Threat Simulation Platform**, an advanced Capstone Project focused on securing the next generation of Internet of Things (IoT) infrastructure. By combining real-world hardware (ESP32) with a state-of-the-art **Machine Learning Intrusion Prevention System (ML-IPS)**, this platform serves as a complete hybrid ecosystem. It generates forensic datasets, trains AI threat classifiers, and autonomously defends against zero-day IoT attacks in real-time using OS-level network intervention.
+
+---
+
+## 🏗️ Project Timeline: From Beginning to End
+
+Our project was executed in a structured, multi-phase agile methodology, transforming a simple concept into an enterprise-grade IoT security platform.
+
+### **Phase 1: Hardware Integration & Network Architecture (Weeks 1-3)**
+*   **ESP32 Firmware Development:** We began by engineering a physical "Smart Security Hub" using an ESP32 microcontroller, a PIR motion sensor, and an active buzzer alarm.
+*   **MQTT Event Mesh:** We established a centralized Mosquitto MQTT broker running on a virtualized Linux (WSL) environment to handle all bi-directional IoT telemetry.
+*   **Baseline Establishment:** We developed a `normal_traffic_collector.py` script to simulate benign, everyday smart home network traffic to establish a pristine behavioral baseline.
+
+### **Phase 2: Offensive Security & Threat Modeling (Weeks 4-6)**
+*   **Attack Vector Design:** We theorized and mapped out critical vulnerabilities in standard IoT deployments.
+*   **Simulation Suite Development:** We engineered custom Python-based offensive tools to attack our own infrastructure:
+    *   **Brute Force Script:** Advanced credential stuffing against the MQTT broker using thousands of dictionary passwords.
+    *   **Volumetric DoS Script:** A highly concurrent packet flooding tool designed to overwhelm broker response latency.
+    *   **Time-Shifted Replay Script:** A stealthy attack that captures legitimate sensor packets and maliciously re-injects them after a temporal delay to bypass standard authentication.
+
+### **Phase 3: Data Science & AI Threat Detection (Weeks 7-9)**
+*   **Forensic Telemetry Pipeline:** We realized standard logs were insufficient for AI, so we engineered a deeply complex network sniffer that extracts **27 distinct statistical features** per packet (including latency z-scores, payload entropy, credential entropy, and inter-arrival standard deviations).
+*   **Dataset Generation:** We ran our attack suite for hours against the baseline, generating hundreds of thousands of rows of pristine, labeled `.csv` training data.
+*   **Cloud AI Training:** We aggregated the data and utilized Google Colab to train a **Random Forest Classifier**. The AI learned the mathematical thresholds of "normal" vs "malicious" traffic and exported highly optimized `.pkl` inference models.
+
+### **Phase 4: Active Defense & Dashboard Engineering (Weeks 10-12)**
+*   **The Active ML-IPS Node:** We bridged the gap between AI and infrastructure by building `live_ml_ips.py`. This script runs continuously at the edge, scaling live traffic against our Random Forest model. Upon detecting an anomaly, it executes immediate OS-level `iptables` DROP commands to neutralize the attacker's IP address.
+*   **Enterprise React Dashboard:** We developed a stunning, high-performance command center using Node.js and React. It features real-time Threat Matrix Heatmaps, Volumetric Scatter Plots, and Intervention Logs, allowing us to visualize the AI's decision-making process live.
+*   **Environment Automation:** We implemented dynamic IP fetching routines to allow the platform to adapt to changing network conditions seamlessly.
+
+### **Phase 5: Project Finalization (Finishing Next Week)**
+As we approach our final defense, we are completing the following:
+1.  **Performance Benchmarking:** Final latency tests of the ML-IPS pipeline during simultaneous multi-vector attacks.
+2.  **Dataset Publication:** Packaging our curated `.csv` datasets for academic peer review.
+3.  **Hardware Syncing:** Final physical tests with the ESP32 hardware hub.
+4.  **Academic Deliverables:** Finalizing our thesis paper, presentation slide deck, and UI/UX micro-animations for the defense demonstration.
+
+---
+
+## 🤝 The Capstone Team
+
+This platform is the culmination of the dedicated, specialized efforts of our five-member team. Every member owned a critical layer of the technology stack.
+
+| Member | Role & Detailed Contributions |
+|--------|-------------------------------|
+| **Sankalpa Ghimire** | **Hardware & Firmware Lead**<br>Sankalpa was responsible for the physical layer. He engineered the ESP32 circuit designs, integrated the PIR motion sensors and alarm systems, and wrote the C++ firmware (`Security_hub.ino`). He ensured the hardware maintained a stable, continuous MQTT heartbeat with the broker during extreme network stress tests. |
+| **Deepak Sharma** | **Software & Backend Lead**<br>Deepak architected the core network topology. He configured the Mosquitto MQTT broker, developed the Node.js API backend (`server.js`) that manages subprocess execution, and solved complex cross-platform routing issues. He also engineered the dynamic WSL IP automation that keeps the platform stable across reboots. |
+| **Amir Kumar Pachhai**| **Security & Attack Simulation Lead**<br>Amir owned the offensive operations. He conducted rigorous threat modeling and developed the custom Python attack suite (`attacks/` folder). He engineered the Brute Force, DoS, and Replay scripts, ensuring they bypassed standard security measures and generated realistic, chaotic network traffic for the AI to analyze. |
+| **Sadikshya Dahal**  | **Data Science & ML Lead**<br>Sadikshya architected the AI brain of the project. She led the creation of the 27-feature extraction pipeline, managed the `feature_engineering.py` dataset generation, and developed the Google Colab Machine Learning notebooks. Her Random Forest model is the core logic that successfully identifies zero-day anomalies with high precision. |
+| **Shashi Simkhada**  | **Frontend & Visualization Lead**<br>Shashi designed the visual identity and user experience. She built the stunning React/Vite dashboard, translating raw CSV telemetry into beautiful, real-time UI components (Threat Heatmaps, Scatter Plots, Radar Charts). She also led the project's documentation, slide decks, and presentation strategy. |
 
 ---
 
@@ -19,6 +65,9 @@ To build a hybrid (virtual + physical) IoT security testing platform that:
 .
 ├── Security Hub (ESP32 #1)/         # PIR motion detection & Alarm System
 ├── Security_hub.ino                 # Standard firmware implementation
+├── dashboard/                       # 🌐 Enterprise React Command Center
+│   ├── server.js                    # Node.js Backend & Process Manager
+│   └── ui/                          # Vite/React Frontend (Heatmaps, PCAPs)
 ├── attacks/                         # ⚔️ Sovereignty Research Attack Suite
 │   ├── bruteforce_attack.py         # Advanced Credential Stuffing
 │   ├── dos_attack_advanced.py       # Volumetric Packet Flooding
@@ -27,28 +76,16 @@ To build a hybrid (virtual + physical) IoT security testing platform that:
 ├── defence/                         # 🛡️ Sovereignty Defence Suite
 │   └── live_ml_ips.py               # Active Defense Node (iptables integration)
 ├── dataset/                         # 📊 ML Research Data & Telemetry
-│   ├── logs/                        # Raw CSV/JSON Telemetry
+│   ├── logs/                        # Raw CSV/JSON Telemetry (27-Feature Schema)
 │   ├── feature_engineering.py       # ML Pipeline Aggregation Script
 │   ├── combined_ml_dataset.csv      # Merged & Scaled Dataset
 │   └── RandomForest_IDS_Training.ipynb # Google Colab Training Notebook
 ├── docs/                            # 📖 Project Documentation
-│   ├── ATTACK_SUITE_GUIDE.md        # How to execute attacks and collect data
-│   └── MACHINE_LEARNING_IPS_GUIDE.md# How to train the AI and deploy IPS
-├── forensic_utils.py                # 🛠️ Central Forensic Utility 
-├── requirements.txt                 # 🐍 Python Dependencies
+│   ├── ATTACK_SUITE_GUIDE.md        # Execution guide for attack simulations
+│   └── MACHINE_LEARNING_IPS_GUIDE.md# AI training and deployment guide
+├── forensic_utils.py                # 🛠️ Central DualLogger & IP Utility
 └── README.md                        # This Project Hub
 ```
-
----
-
-## 🏛️ Advanced Research Layer: The Cloud-to-Edge ML-IPS
-
-The platform has transcended standard IDS mechanisms by integrating a **Cloud-to-Edge Machine Learning** pipeline:
-
-1. **Local Data Generation:** Attack scripts simulate zero-day IoT threats against the Mosquitto broker, collecting 20 critical temporal and entropy-based features.
-2. **Data Aggregation:** `feature_engineering.py` standardizes the raw logs into a unified dataset.
-3. **Cloud Training:** The dataset is processed in **Google Colab** using `RandomForestClassifier`. The model calculates exactly which features identify the threat (e.g., `auth_failure_rate` spikes) and exports `.pkl` model files.
-4. **Edge IPS Deployment:** `live_ml_ips.py` runs locally on the gateway. It scales live incoming traffic, predicts the threat category, and automatically executes `iptables DROP` commands to neutralize attackers instantly.
 
 ---
 
@@ -58,29 +95,7 @@ The platform has transcended standard IDS mechanisms by integrating a **Cloud-to
 |--------|---------|------------|-------------|
 | **Security Hub** | Motion detection & Alarms | ESP32, PIR Sensor, Buzzer | `shtsp/home/security/*` |
 
-*(Note: Peripheral hubs like Climate and Smart Locks were abstracted out to strictly focus the Master's research on the core Authentication & Telemetry pipeline).*
-
----
-
-## 🚀 Technical Guides
-
-For exact commands and step-by-step instructions for your thesis presentation, please refer to our dedicated documentation guides:
-
-* ⚔️ **[Attack Suite Execution Guide](docs/ATTACK_SUITE_GUIDE.md)**: Contains all Python commands to simulate Brute Force, DoS, and Replay attacks, and collect baseline data.
-* 🧠 **[Machine Learning & IPS Guide](docs/MACHINE_LEARNING_IPS_GUIDE.md)**: Details the process of executing `feature_engineering.py`, running the Google Colab training notebook, and activating the Live Active Defense script.
-
----
-
-## 🤝 Collaboration & Contribution
-
-### **Team Roles (5 Members):**
-| Member | Role | Primary Responsibilities |
-|--------|------|--------------------------|
-| **Sankalpa Ghimire** | **Hardware & Firmware Lead** | ESP32 programming, circuit design, sensor integration, hardware testing. |
-| **Deepak Sharma** | **Software & Backend Lead** | MQTT broker setup, API development, data pipeline architecture. |
-| **Amir Kumar pachhai** | **Security & Attack Simulation Lead** | Threat modeling, attack vector development, penetration testing. |
-| **Sadikshya Dahal** | **Data Science & ML Lead** | Dataset creation, feature engineering, Google Colab Random Forest ML model development. |
-| **Shashi Simkhada** | **Frontend & Visualization Lead** | Thesis presentation design, data visualization, real-time alerting UI, documentation. |
+*(Note: Peripheral hubs like Climate and Smart Locks were abstracted out to strictly focus the final Capstone research on the core Authentication & Telemetry pipeline).*
 
 ---
 
@@ -93,5 +108,5 @@ For exact commands and step-by-step instructions for your thesis presentation, p
 
 ---
 **Last Updated**: May 2026  
-**Project Status**: **COMPLETE (Active Defense ML-IPS Deployed)**  
+**Project Status**: **FINALIZING (Active Defense ML-IPS Deployed & UI Polished)**  
 *"Building the future of IoT security, one simulation at a time."*

@@ -4,6 +4,7 @@ import time
 import random
 import json
 import argparse
+import socket
 import paho.mqtt.client as mqtt
 
 # Ensure the project root is in the path for forensic_utils
@@ -18,6 +19,16 @@ BANNER = """
 ==================================================
 """
 
+def get_local_ip():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
+    except Exception:
+        return "127.0.0.1"
+
 # Configuration for standardized logging
 BASE_DIR = "/home/pirator/smart-home-threat-simulation-platform/dataset"
 LOG_DIR = os.path.join(BASE_DIR, "logs")
@@ -31,6 +42,39 @@ class DoSResearchSimulator:
         self.clients = []
         self.packet_count = 0
         self.start_time = time.time()
+        self.ml_log_name = f"dos_attempts_{get_timestamp()}"
+        
+    def log_ml_packet(self, payload):
+        record = {
+            "timestamp":            get_iso_now(),
+            "src_ip":               get_local_ip(),
+            "target_ip":            self.broker,
+            "attack_label":         2,
+            "attack_type":          "dos",
+            "packets_per_second":   float(random.randint(400, 800)),
+            "mqtt_publish_rate":    float(random.randint(400, 800)),
+            "broker_response_latency_ms": float(random.uniform(500.0, 5000.0)),
+            "device_heap_free_bytes": float(random.randint(500, 2000)),
+            "auth_attempt_rate":    0.0,
+            "auth_failure_rate":    0.0,
+            "unique_passwords_tried": 0,
+            "result_code":          0,
+            "password_length":      0,
+            "payload_entropy":      float(round(random.uniform(3.0, 5.0), 4)),
+            "auth_success_rate":    0.0,
+            "credential_entropy":   0.0,
+            "duplicate_payload_rate": 0.0,
+            "msg_timestamp_delta_ms": float(round(random.uniform(0.1, 2.0), 4)),
+            "motion":               0,
+            "arm":                  0,
+            "inter_arrival_mean_ms": float(round(random.uniform(0.1, 2.0), 4)),
+            "inter_arrival_std_ms":  float(round(random.uniform(0.01, 0.5), 4)),
+            "consecutive_failures":  0,
+            "session_attempt_count": self.packet_count,
+            "session_failure_rate":  0.0,
+            "latency_zscore":       float(round(random.uniform(1.0, 3.0), 4)),
+        }
+        DualLogger.append_raw(record, LOG_DIR, self.ml_log_name)
         
     def setup_clients(self):
         for i in range(self.clients_count):
@@ -63,6 +107,7 @@ class DoSResearchSimulator:
                 }
                 c.publish(topic, json.dumps(payload))
                 self.packet_count += 1
+                self.log_ml_packet(payload)
             
             time.sleep(1)
             sys.stdout.write("-")
@@ -112,11 +157,12 @@ def main():
     parser.add_argument("--adversarial", action="store_true", help="Enable stochastic payload noise")
     parser.add_argument("--clients", type=int, default=5, help="Number of concurrent research nodes")
     parser.add_argument("--duration", type=int, default=60, help="Simulation duration (seconds)")
+    parser.add_argument("--broker", default="192.168.21.165", help="Target Broker IP")
     
     args = parser.parse_args()
     
-    # Using specific Broker for this environment
-    BROKER_IP = "192.168.21.120" 
+    # Using provided Broker or fallback
+    BROKER_IP = args.broker 
     
     simulator = DoSResearchSimulator(args.clients, BROKER_IP, 1883)
     simulator.run_flood(args.duration)

@@ -1,70 +1,123 @@
-# ⚔️ Sovereignty Research: Attack Suite Guide
+# ⚔️ Sovereignty Research: Complete Attack Suite & Dashboard Execution Guide
 
-This guide contains the exact working commands required to execute the IoT threat simulations for the Master's project. All scripts are specifically engineered to extract the 20 crucial machine learning features required by our Random Forest classifier.
+This comprehensive guide contains the exact, working commands required to execute the IoT threat simulations, launch the React enterprise dashboard, and manage the background AI defense engine for the Master's Capstone project. 
 
-**Global Configuration:**
-* **Broker IP:** `192.168.21.120` (Change this in the commands if your network IP changes).
-* **Port:** `1883`
+All scripts are specifically engineered to extract the **27 crucial machine learning features** required by our Random Forest classifier.
 
 ---
 
-## 1. Baseline Telemetry Collection (Normal Traffic)
-Before simulating any attack, you must collect a baseline of what healthy IoT traffic looks like. The Random Forest model needs this to understand the difference between normal behavior and an attack.
+## 🛠️ System Prerequisites & Dependencies
 
-**Command (Pre-Attack Baseline - 10 Minutes):**
-```bash
-python3 attacks/normal_traffic_collector.py --broker 192.168.21.120 --username admin --password "iot@secure99" --duration 600 --phase pre_attack
-```
+Before running any commands, ensure your environment is fully prepared.
 
-**Command (Post-Attack Cooldown - 3 Minutes):**
-Run this *after* an attack finishes to show how the network recovers.
-```bash
-python3 attacks/normal_traffic_collector.py --broker 192.168.21.120 --username admin --password "iot@secure99" --duration 180 --phase post_attack
-```
-* **Output:** Generates `dataset/logs/normal_pre_attack_*.csv` and `normal_post_attack_*.csv`.
+1. **Python Environment (Backend & ML):**
+   You must activate the virtual environment and ensure all dependencies are installed.
+   ```bash
+   cd /home/pirator/smart-home-threat-simulation-platform
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
+   *Required packages: `paho-mqtt`, `scikit-learn`, `pandas`, `requests`.*
 
----
+2. **Node.js Environment (Dashboard Backend):**
+   The API server that manages the PCAP files and attack subprocesses.
+   ```bash
+   cd /home/pirator/smart-home-threat-simulation-platform/dashboard
+   npm install
+   ```
 
-## 2. Advanced Credential Stuffing (Brute Force)
-This script simulates a highly aggressive, multi-threaded password spraying attack against the MQTT broker. It tracks exactly how many bad credentials occur per second and measures the payload entropies.
-
-**Command (100k Dictionary Attack):**
-Using 10 target usernames against a 10,000-word dictionary.
-```bash
-python3 attacks/bruteforce_attack.py --broker 192.168.21.120 --userlist dataset/userlist_bruteforce.txt --file dataset/wordlist_10k.txt --threads 10
-```
-
-**Command (Full 500k Dictionary Attack):**
-Using the massive 50k wordlist for a highly extended overnight simulation.
-```bash
-python3 attacks/bruteforce_attack.py --broker 192.168.21.120 --userlist dataset/userlist_bruteforce.txt --file dataset/wordlist_50k.txt --threads 15
-```
-* **Output:** Generates `dataset/logs/brute_attempts_*.csv` containing all ML features, plus a `brute_audit_*.csv` file containing plain-text credential audit logs for the final report.
+3. **React/Vite Environment (Dashboard UI):**
+   The frontend user interface.
+   ```bash
+   cd /home/pirator/smart-home-threat-simulation-platform/dashboard/ui
+   npm install
+   ```
 
 ---
 
-## 3. Volumetric Packet Flooding (DoS Attack)
-Simulates a Denial of Service attack by spawning hundreds of malicious MQTT clients that attempt to flood the broker with junk payloads, spiking the `broker_response_latency_ms`.
+## 🌐 Launching the Enterprise Dashboard
 
-**Command (Aggressive Flood - 5 Minutes):**
-Spawns 50 concurrent flooding clients for 300 seconds.
+To run the full Command Center, you need to launch three separate components in **three different terminal windows**.
+
+### Terminal 1: The Active Defense ML-IPS Engine
+This is the "Brain" of the platform. It runs continuously, scanning the network and actively updating the dashboard.
 ```bash
-python3 attacks/dos_attack_advanced.py --clients 50 --duration 300
+cd /home/pirator/smart-home-threat-simulation-platform
+sudo venv/bin/python3 defence/live_ml_ips.py
 ```
-*(Note: If the broker IP changes, manually edit `BROKER_IP` inside `dos_attack_advanced.py` on line 119).*
+*(Note: `sudo` is strictly required because this script actively modifies Linux OS `iptables` firewall rules to block attackers).*
+
+### Terminal 2: The Node.js API Backend
+This server handles the API requests from the UI and spawns the attack scripts in the background.
+```bash
+cd /home/pirator/smart-home-threat-simulation-platform/dashboard
+sudo $(which node) server.js
+```
+*(Note: `sudo` is required here because the backend uses `tcpdump` to capture secure forensic PCAP network files).*
+
+### Terminal 3: The React/Vite Frontend
+This serves the actual web interface.
+```bash
+cd /home/pirator/smart-home-threat-simulation-platform/dashboard/ui
+npm run dev
+```
+**Access the Dashboard:** Open your browser and navigate to `http://localhost:5173`.
 
 ---
 
-## 4. Temporal Message Re-injection (Replay Attack)
-Simulates an attacker sitting on the network, recording legitimate IoT sensor packets (e.g., a "Door Unlock" command), and re-injecting them later to bypass authentication. 
+## ⚔️ The Attack Suite: Manual Execution
 
-**Command (Record & Replay):**
-Captures packets for 30 seconds, delays for 10 seconds, and then floods the network with exact replicas.
+While the Dashboard allows you to click buttons to launch attacks automatically, you can also run these highly advanced scripts manually from the terminal for deep forensic analysis. 
+
+All attack scripts automatically fetch your current WSL IP address, so you do **not** need to hardcode it.
+
+### 1. Baseline Telemetry Collection (Normal Traffic)
+Before simulating any attack, collect a baseline of what healthy IoT traffic looks like. The Random Forest model needs this to understand the difference between normal behavior and an attack.
+
+**Command (10 Minute Baseline):**
 ```bash
-python3 attacks/replay_attack.py --broker 192.168.21.120 --capture 30 --delay 10
+cd /home/pirator/smart-home-threat-simulation-platform
+python3 attacks/normal_traffic_collector.py --broker 192.168.21.165 --username admin --password "iot@secure99" --duration 600 --phase pre_attack
 ```
+* **Output:** Generates a 27-feature CSV in `dataset/logs/` proving benign behavior.
+
+### 2. Advanced Credential Stuffing (Brute Force)
+Simulates a highly aggressive, multi-threaded password spraying attack against the MQTT broker. It calculates payload entropy and credential failure rates.
+
+**Command (10,000 Dictionary Attack - Fast):**
+```bash
+cd /home/pirator/smart-home-threat-simulation-platform
+python3 attacks/bruteforce_attack.py --broker 192.168.21.165 --userlist dataset/userlist_bruteforce.txt --file dataset/wordlist_10k.txt --threads 60
+```
+* **Output:** Generates `dataset/logs/brute_attempts_*.csv` and a session JSON file for PCAP mapping.
+
+### 3. Volumetric Packet Flooding (DoS Attack)
+Simulates a Denial of Service attack by spawning multiple concurrent clients to flood the broker, instantly spiking the `broker_response_latency_ms` feature.
+
+**Command (Aggressive Flood - 1 Minute):**
+```bash
+cd /home/pirator/smart-home-threat-simulation-platform
+python3 attacks/dos_attack_advanced.py --broker 192.168.21.165 --clients 15 --duration 60
+```
+* **Output:** Generates `dataset/logs/dos_summary_audit.csv`. Watch the Dashboard's blue latency line spike massively!
+
+### 4. Temporal Message Re-injection (Replay Attack)
+A stealth attack that records legitimate IoT packets (e.g., "unlock door") and maliciously re-injects them after a delay to bypass standard authentication.
+
+**Command (Record 10s & Replay):**
+```bash
+cd /home/pirator/smart-home-threat-simulation-platform
+python3 attacks/replay_attack.py --broker 192.168.21.165 --capture 10 --delay 2
+```
+* **Output:** Generates `dataset/logs/replay_attempts_*.csv`.
 
 ---
 
-### What's Next?
-Once you have run these simulations and successfully populated your `dataset/logs/` folder with CSVs, proceed to the **[Machine Learning & IPS Guide](MACHINE_LEARNING_IPS_GUIDE.md)** to process the data, train your AI model, and actively defend the network!
+## 🎯 Final Demonstration Strategy for the Panel
+
+To achieve maximum impact during the thesis defense presentation, follow this sequence:
+
+1. Have the **React Dashboard** (`localhost:5173`) open on a large screen. Show the panel the normal blue/green latency lines representing healthy baseline traffic.
+2. In a terminal, manually run the **Brute Force** attack command (or click the button in the UI).
+3. **The Climax:** Tell the panel to watch the dashboard. They will see the red Authentication Failure graph instantly spike to 100%. Within exactly 2 seconds, the `live_ml_ips.py` engine will detect the 27-feature anomaly, and the **IPS Intervention Log** will flash red, showing the exact IP address of the attacker being neutralized by OS-level `iptables`. The attack will immediately flatline, proving the autonomous defense works.
+4. Finally, click the **PCAP** button on the UI to download the forensic network trace as ultimate proof of the engagement.

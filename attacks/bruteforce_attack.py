@@ -35,7 +35,7 @@ os.makedirs(LOG_DIR, exist_ok=True)
 os.makedirs(SESSIONS_DIR, exist_ok=True)
 
 # ─────────────────────────────────────────────────────────────
-# ML FEATURE SCHEMA — 20 features
+# ML FEATURE SCHEMA — 25 features (unified schema)
 # ─────────────────────────────────────────────────────────────
 ML_HEADERS = [
     # ── Identity ──────────────────────────────────────────────
@@ -45,28 +45,37 @@ ML_HEADERS = [
     "attack_label",         # 04 Integer: 0=Normal 1=BruteForce 2=DoS 3=Replay
     "attack_type",          # 05 String label for the attack
 
-    # ── Per-Attempt Features ───────────────────────────────────
-    "broker_response_latency_ms", # 06 CONNACK response time (ms)
-    "result_code",          # 07 MQTT rc: 0=OK 4=BadUser 5=BadCreds 98=Timeout 99=ConnFail
-    "password_length",      # 08 Character length of password tried
-    "payload_entropy",      # 09 Shannon entropy of the password string
+    # ── Volumetric Network Features (new) ─────────────────────
+    "packets_per_second",   # 06 Estimated PPS (slow for BF)
+    "mqtt_publish_rate",    # 07 PUBLISH msgs/sec (0 for BF — auth phase only)
+    "broker_response_latency_ms", # 08 CONNACK response time (ms)
+    "device_heap_free_bytes", # 09 ESP32 heap (baseline — BF is broker-side)
 
     # ── Rolling Window (last 5 seconds) ───────────────────────
     "auth_attempt_rate",    # 10 Attempts per second in last 5s
     "auth_failure_rate",    # 11 Failures per second in last 5s
-    "auth_success_rate",    # 12 Successes per second in last 5s
-    "unique_passwords_tried", # 13 Distinct passwords tried in last 5s
-    "credential_entropy",   # 14 Shannon entropy of password distribution (last 5s)
+    "unique_passwords_tried", # 12 Distinct passwords tried in last 5s
+    "result_code",          # 13 MQTT rc: 0=OK 4=BadUser 5=BadCreds 98=Timeout 99=ConnFail
+    "password_length",      # 14 Character length of password tried
+    "payload_entropy",      # 15 Shannon entropy of the password string
+    "auth_success_rate",    # 16 Successes per second in last 5s
+    "credential_entropy",   # 17 Shannon entropy of password distribution (last 5s)
+    "duplicate_payload_rate", # 18 Fraction of duplicate passwords (BF = high)
+    "msg_timestamp_delta_ms", # 19 Time delta from last message
+
+    # ── Device State Features (new) ───────────────────────────
+    "motion",               # 20 Motion sensor state (0 — BF is network-only)
+    "arm",                  # 21 Alarm arm state (0 — BF is network-only)
 
     # ── Timing Features (last 20 attempts) ────────────────────
-    "inter_arrival_mean_ms",# 15 Mean time between consecutive attempts (ms)
-    "inter_arrival_std_ms", # 16 Std dev of inter-arrival times (ms)
+    "inter_arrival_mean_ms",# 22 Mean time between consecutive attempts (ms)
+    "inter_arrival_std_ms", # 23 Std dev of inter-arrival times (ms)
 
     # ── Session-Level Cumulative Features ─────────────────────
-    "consecutive_failures", # 17 Running count of consecutive BAD_CREDENTIALS
-    "session_attempt_count",# 18 Total attempts made this session
-    "session_failure_rate", # 19 Cumulative failures / total attempts
-    "latency_zscore",       # 20 Z-score of current latency vs session mean
+    "consecutive_failures", # 24 Running count of consecutive BAD_CREDENTIALS
+    "session_attempt_count",# 25 Total attempts made this session
+    "session_failure_rate", # 26 Cumulative failures / total attempts  (note: col 26 of 27 — label is col 4)
+    "latency_zscore",       # 27 Z-score of current latency vs session mean
 ]
 
 
@@ -211,12 +220,14 @@ class MLAttemptLogger:
         self.audit_headers = ["timestamp", "target_ip", "username", "password", "result"]
 
     def log_attempt(self, username, password, rc, latency_ms, result_str, event_time):
-        """Compute all 20 ML features and log to both CSV and JSON in dataset/logs/."""
+        """Compute all 25 ML features and log to both CSV and JSON in dataset/logs/."""
 
         # ── Compute rolling features ──────────────────────────
         rolling = self.tracker.record(event_time, rc, password, latency_ms)
 
-        # ── Build unified 20-feature record ───────────────────
+        # ── Build unified 25-feature record (matches combined_ml_dataset schema) ──
+        # Brute force is a slow, credential-focused attack — low pkt rate,
+        # no PUBLISH activity, full heap (attacker side), no device motion.
         record = {
             "timestamp":            get_iso_now(),
             "src_ip":               self.src_ip,
@@ -224,21 +235,34 @@ class MLAttemptLogger:
             "attack_label":         1,
             "attack_type":          "brute_force",
 
+            # Volumetric (backfilled — BF sends 1 CONNECT per attempt, not floods)
+            "packets_per_second":       round(rolling["auth_attempt_rate"] * 3, 4),  # ~3 pkts per CONNECT
+            "mqtt_publish_rate":        0.0,   # BF never publishes
             "broker_response_latency_ms": round(latency_ms, 4),
-            "result_code":          rc,
-            "password_length":      len(password),
-            "payload_entropy":      round(shannon_entropy(password), 4),
-            "username_tested":      username,
+            "device_heap_free_bytes":   235000, # Baseline heap (broker-side, not ESP)
 
+            # Auth rolling window
             "auth_attempt_rate":       rolling["auth_attempt_rate"],
             "auth_failure_rate":       rolling["auth_failure_rate"],
-            "auth_success_rate":       rolling["auth_success_rate"],
             "unique_passwords_tried":  rolling["unique_passwords_tried"],
+            "result_code":             rc,
+            "password_length":         len(password),
+            "payload_entropy":         round(shannon_entropy(password), 4),
+            "auth_success_rate":       rolling["auth_success_rate"],
             "credential_entropy":      rolling["credential_entropy"],
+            "duplicate_payload_rate":  round(1.0 - (rolling["unique_passwords_tried"] /
+                                           max(rolling["session_attempt_count"], 1)), 4),
+            "msg_timestamp_delta_ms":  round(rolling["inter_arrival_mean_ms"], 4),
 
+            # Device state (BF is network-layer only, no physical device interaction)
+            "motion":                   0,
+            "arm":                      0,
+
+            # Timing
             "inter_arrival_mean_ms":   rolling["inter_arrival_mean_ms"],
             "inter_arrival_std_ms":    rolling["inter_arrival_std_ms"],
 
+            # Session cumulative
             "consecutive_failures":    rolling["consecutive_failures"],
             "session_attempt_count":   rolling["session_attempt_count"],
             "session_failure_rate":    rolling["session_failure_rate"],
@@ -341,7 +365,7 @@ def print_progress(current, total, start_time):
 def main():
     print(BANNER)
     parser = argparse.ArgumentParser(description="MQTT Brute Force — ML-IDS Dataset Generator")
-    parser.add_argument("--broker",   default="192.168.21.120", help="Target Broker IP")
+    parser.add_argument("--broker",   default="192.168.21.165", help="Target Broker IP")
     parser.add_argument("--port",     type=int, default=1883,   help="Broker Port")
     parser.add_argument("--username",                           help="Single Target Username")
     parser.add_argument("--userlist",                           help="Path to username list (.txt)")
