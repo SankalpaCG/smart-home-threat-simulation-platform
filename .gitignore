@@ -114,3 +114,11 @@ dashboard/ui/public/*.pcap
 node_modules/
 dashboard/ui/node_modules/
 dashboard/ui/.vite/
+
+# Presentation files (local only — do not commit)
+docs/generate_presentation.py
+docs/*.pptx
+
+# Generated presentation images (local only — do not commit)
+images/
+

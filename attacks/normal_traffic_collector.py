@@ -300,7 +300,7 @@ class NormalTrafficCollector:
 
 def main():
     parser = argparse.ArgumentParser(description="Normal MQTT Traffic Collector for ML-IDS")
-    parser.add_argument("--broker",   default="192.168.1.100")
+    parser.add_argument("--broker",   default="192.168.1.196")
     parser.add_argument("--port",     type=int, default=1883)
     parser.add_argument("--username", default="admin")
     parser.add_argument("--password", default="iot@secure99")

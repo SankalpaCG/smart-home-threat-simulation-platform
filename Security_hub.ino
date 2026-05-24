@@ -5,7 +5,7 @@
 // --- WIFI & BROKER CONFIGURATION ---
 const char* ssid = "WIFI-2ES5Z4N";         
 const char* password = "29JRt#K5?QRfsG?7"; 
-const char* mqtt_server = "192.168.1.100"; 
+const char* mqtt_server = "192.168.1.196"; 
 
 WiFiClient espClient;
 PubSubClient client(espClient);

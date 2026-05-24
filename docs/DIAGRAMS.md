@@ -391,3 +391,200 @@ sequenceDiagram
     Note over ESP: Arm/Disarm State Changed
     ESP->>Broker: Publish State Update
 ```
+
+
+---
+
+## 14. Research Methodology — Experimental + Design-Based Approach
+*A sequential 9-step workflow detailing the project lifecycle from requirements to empirical validation.*
+
+```mermaid
+flowchart LR
+    A[1. Requirements Analysis] --> B[2. Threat Modelling]
+    B --> C[3. System Architecture]
+    C --> D[4. Attack Simulation]
+    
+    D --> E[5. Dataset Engineering]
+    E --> F[6. Feature Engineering]
+    F --> G[7. ML Training & Benchmarking]
+    G --> H[8. Dashboard + IPS Integration]
+    
+    H --> I[9. Testing & Validation]
+
+    classDef teal fill:#e6f9f6,stroke:#00BC9B,stroke-width:2px;
+    classDef coral fill:#fceceb,stroke:#E0405E,stroke-width:2px;
+    classDef amber fill:#fff6e6,stroke:#FFC107,stroke-width:2px;
+    classDef purple fill:#f5ebfa,stroke:#9C27B0,stroke-width:2px;
+    classDef lime fill:#ebf9eb,stroke:#4CAF50,stroke-width:2px;
+
+    class A,F teal;
+    class B,H coral;
+    class C,G amber;
+    class D purple;
+    class E,I lime;
+```
+
+---
+
+## 15. System Architecture — Layered View
+*A detailed architectural block diagram segregating the platform into Smart Device, Network, Security, and Dashboard layers, running parallel to the core workflow.*
+
+```mermaid
+flowchart TD
+    %% Workflow Side Panel equivalent
+    subgraph Workflow ["Complete Workflow"]
+        W1[IoT Traffic] --> W2[MQTT Broker]
+        W2 --> W3[Data Logging]
+        W3 --> W4[25-Feature Engineering]
+        W4 --> W5[ML Detection]
+        W5 --> W6[IPS Mitigation]
+        W6 --> W7[React Dashboard]
+    end
+
+    %% Main Architecture Layers
+    subgraph L1 ["Smart Device Layer"]
+        ESP[ESP32 Microcontroller<br>Publishes MQTT telemetry<br>Subscribes to security commands]
+        PIR[PIR Motion Sensor<br>Motion event source]
+        BUZ[Alarm Buzzer / Wokwi Simulator<br>Alert actuator]
+        
+        PIR -->|Generates 5 Hz JSON telemetry| ESP
+        ESP -->|Activates| BUZ
+    end
+
+    subgraph L2 ["MQTT Broker / Network Layer"]
+        MQ[Mosquitto MQTT Broker<br>Port 1883]
+        TOPICS[MQTT Topics<br>shtsp/home/telemetry<br>shtsp/home/security/cmd]
+        ROUTING[Traffic Routing & Raw MQTT Logs<br>Normal + Attack traffic]
+        
+        MQ --- TOPICS --- ROUTING
+    end
+
+    subgraph L3 ["Security and Intelligence Layer"]
+        DATA[Data Collection<br>Raw MQTT logs<br>JSON / CSV]
+        FE[Feature Engineering<br>Unified 25-feature schema<br>1,640,108 records]
+        ML[ML Detection Engine<br>Random Forest classifier<br>Classes: Normal, Brute Force, DoS, Replay]
+        IPS[Live IPS / Defence Module<br>live_ml_ips.py<br>iptables firewall blocking]
+        
+        DATA --> FE --> ML --> IPS
+    end
+
+    subgraph L4 ["Dashboard and Control Layer"]
+        NODE[Node.js Backend<br>Socket.IO real-time updates]
+        REACT[React.js Frontend Dashboard]
+        VIS[Visual Analytics<br>Live telemetry graphs<br>Threat heatmap<br>Anomaly scatter plot]
+        CTRL[Control & Response<br>Attack controls<br>Alert log<br>IPS intervention log]
+        
+        NODE --> REACT --> VIS --> CTRL
+    end
+
+    %% Cross-layer connections
+    L1 -->|MQTT publish| L2
+    L2 -->|Traffic logs and telemetry stream| L3
+    L3 -->|Predictions and alerts| L4
+
+    classDef layer1 fill:#f9fdf9,stroke:#4CAF50,stroke-width:2px;
+    classDef layer2 fill:#f2fcfb,stroke:#00BC9B,stroke-width:2px;
+    classDef layer3 fill:#faf4fd,stroke:#9C27B0,stroke-width:2px;
+    classDef layer4 fill:#fff2f4,stroke:#E0405E,stroke-width:2px;
+    classDef workflow fill:#fffdf5,stroke:#FFC107,stroke-width:2px,stroke-dasharray: 5 5;
+
+    class L1 layer1;
+    class L2 layer2;
+    class L3 layer3;
+    class L4 layer4;
+    class Workflow workflow;
+```
+
+---
+
+## 16. ER Diagram: IDS/IPS Data Model
+*Entity-Relationship diagram mapping the structural relationship between devices, traffic telemetry, feature engineering, ML predictions, and automated firewall alerts.*
+
+```mermaid
+classDiagram
+    direction LR
+    
+    class device {
+        +UUID device_id [PK]
+        +String device_name
+        +String device_type
+        +String ip_address
+        +String status
+        +DateTime last_seen
+    }
+    class attack_session {
+        +UUID session_id [PK]
+        +String attack_type
+        +DateTime start_time
+        +DateTime end_time
+        +String status
+        +String source_ip
+        +String target_ip
+        +String notes
+    }
+    class traffic_log {
+        +UUID log_id [PK]
+        +UUID device_id [FK]
+        +UUID session_id [FK]
+        +DateTime timestamp
+        +String mqtt_topic
+        +JSON payload_json
+        +String source_ip
+        +String target_ip
+        +Int latency_ms
+    }
+    class feature_record {
+        +UUID feature_id [PK]
+        +UUID log_id [FK]
+        +Float packets_per_second
+        +Float auth_failure_rate
+        +Float duplicate_payload_rate
+        +Float broker_latency_ms
+        +Float inter_arrival_mean_ms
+        +Int heap_free_bytes
+        +Int attack_label
+    }
+    class prediction_result {
+        +UUID prediction_id [PK]
+        +UUID feature_id [FK]
+        +UUID model_id [FK]
+        +Int predicted_label
+        +String predicted_class
+        +Float confidence_score
+        +DateTime prediction_time
+    }
+    class ml_model {
+        +UUID model_id [PK]
+        +String model_name
+        +String algorithm
+        +String model_file
+        +String scaler_file
+        +Float accuracy
+        +DateTime created_at
+    }
+    class alert {
+        +UUID alert_id [PK]
+        +UUID prediction_id [FK]
+        +String alert_type
+        +String severity
+        +String action_taken
+        +String blocked_ip
+        +DateTime created_at
+    }
+    class dashboard_event {
+        +UUID event_id [PK]
+        +UUID alert_id [FK]
+        +String event_type
+        +String message
+        +String display_status
+        +DateTime created_at
+    }
+
+    device "1" --> "*" traffic_log : generates
+    attack_session "1" --> "*" traffic_log : produces
+    traffic_log "1" --> "1" feature_record : maps_to
+    feature_record "1" --> "*" prediction_result : evaluated_as
+    ml_model "1" --> "*" prediction_result : predicts
+    prediction_result "1" --> "0..1" alert : triggers
+    alert "1" --> "*" dashboard_event : displays
+```
