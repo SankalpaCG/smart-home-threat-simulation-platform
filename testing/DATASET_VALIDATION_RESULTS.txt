@@ -1,0 +1,68 @@
+========================================================
+      SMART HOME IDS - DATASET VALIDATION REPORT        
+========================================================
+
+1. DATASET STRUCTURE
+--------------------------------------------------
+Total Records (Rows): 1634538
+Total Features (Columns): 27
+Feature Schema:
+  - timestamp (str)
+  - src_ip (str)
+  - target_ip (str)
+  - attack_label (int64)
+  - attack_type (str)
+  - packets_per_second (float64)
+  - mqtt_publish_rate (float64)
+  - broker_response_latency_ms (float64)
+  - device_heap_free_bytes (float64)
+  - auth_attempt_rate (float64)
+  - auth_failure_rate (float64)
+  - unique_passwords_tried (int64)
+  - result_code (int64)
+  - password_length (int64)
+  - payload_entropy (float64)
+  - auth_success_rate (float64)
+  - credential_entropy (float64)
+  - duplicate_payload_rate (float64)
+  - msg_timestamp_delta_ms (float64)
+  - motion (int64)
+  - arm (int64)
+  - inter_arrival_mean_ms (float64)
+  - inter_arrival_std_ms (float64)
+  - consecutive_failures (int64)
+  - session_attempt_count (int64)
+  - session_failure_rate (float64)
+  - latency_zscore (float64)
+
+2. MISSING VALUE ANALYSIS (NaN/Null)
+--------------------------------------------------
+Total Missing Values Across Dataset: 0
+
+3. CLASS DISTRIBUTION (attack_label)
+--------------------------------------------------
+attack_label
+2    684560
+3    668238
+1    169521
+0    112219
+
+Label Mapping:
+0 = NORMAL
+1 = BRUTE FORCE
+2 = DOS
+3 = REPLAY
+
+4. DUPLICATION ANALYSIS
+--------------------------------------------------
+Total Exact Duplicate Rows: 0
+Duplication Rate: 0.00%
+
+5. DATA LEAKAGE PREVENTION CHECK
+--------------------------------------------------
+WARNING: Potential leakage features found in training data: ['attack_type', 'src_ip', 'target_ip']
+These must be dropped during X/y splitting to prevent model memorization.
+
+========================================================
+                  VALIDATION COMPLETE                   
+========================================================
