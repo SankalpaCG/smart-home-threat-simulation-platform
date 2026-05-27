@@ -236,7 +236,7 @@ class ReplaySimulator:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Smart Home ML-IDS Replay Attack")
-    parser.add_argument("--broker", default="192.168.1.196", help="Target Broker IP")
+    parser.add_argument("--broker", default="192.168.20.237", help="Target Broker IP")
     parser.add_argument("--port", type=int, default=1883, help="Broker Port")
     parser.add_argument("--username", default="admin", help="MQTT Username")
     parser.add_argument("--password", default="iot@secure99", help="MQTT Password")

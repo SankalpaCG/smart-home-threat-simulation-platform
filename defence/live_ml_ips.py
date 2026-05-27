@@ -66,7 +66,7 @@ class LiveMLIPS:
             except Exception:
                 pass
 
-        if ip_address in self.banned_ips or ip_address in ["127.0.0.1", "192.168.21.165"]:
+        if ip_address in self.banned_ips or ip_address in ["127.0.0.1", "192.168.20.237"]:
             return # Don't ban localhost or the broker itself
             
         print(f"\\n🚨 [ACTIVE DEFENSE TRIGGERED] 🚨")

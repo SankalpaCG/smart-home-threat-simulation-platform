@@ -274,7 +274,7 @@ def main():
     parser.add_argument("--botnet", action="store_true", help="Engage ultra high-velocity multi-threaded botnet attack")
     parser.add_argument("--clients", type=int, default=5, help="Number of concurrent research nodes")
     parser.add_argument("--duration", type=int, default=60, help="Simulation duration (seconds)")
-    parser.add_argument("--broker", default="192.168.1.196", help="Target Broker IP")
+    parser.add_argument("--broker", default="192.168.20.237", help="Target Broker IP")
     
     args = parser.parse_args()
     
