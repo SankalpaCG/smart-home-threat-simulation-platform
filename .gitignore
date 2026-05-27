@@ -122,3 +122,7 @@ docs/*.pptx
 # Generated presentation images (local only — do not commit)
 images/
 
+# Ignore notes and drama files
+[nN][oO][tT][eE][sS]*.md
+clean_*.py
+bruteforce simulation*
